@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/general.css">
+  <link rel="stylesheet" href="../styles/player.css">
+  <link rel="stylesheet" href="../styles/control.css">
+  <title>Controller</title>
+</head>
+
+<body>
+  <div id="controlButtons">
+    <span>Câu hỏi & đáp án</span>
+    <button id="prevQ">Câu trước</button>
+    <button id="nextQ">Câu sau</button>
+    <button id="showQBtn">Hiện câu hỏi</button>
+    <button id="showABtn">Hiện đáp án A</button>
+    <button id="showBBtn">Hiện đáp án B</button>
+    <button id="showCBtn">Hiện đáp án C</button>
+    <button id="cd100">Đếm ngược 100s</button>
+    <button id="cd15">Đếm ngược 15s</button>
+    <hr>
+    <span>Đúng/sai</span>
+    <button id="playWaitCorrectAns">Âm thanh chờ đáp án đúng</button>
+    <button id="correctAns">Đáp án đúng</button>
+    <button id="wrongAns">Đáp án sai</button>
+    <hr>
+    <span>Hiển thị tiền thưởng</span>
+    <button id="showMoneyIfCorrect">Tiền thưởng nếu đúng</button>
+    <button id="showMoneyIfWrong25">Tiền thưởng nếu sai -25%</button>
+    <button id="showMoneyIfWrong50">Tiền thưởng nếu sai -50%</button>
+    <button id="showMoneyIfWrong100">Tiền thưởng nếu sai -100%</button>
+    <button id="updateMoneyCorrect">Cập nhật tiền (đúng)</button>
+    <button id="updateMoneyWrong25">Cập nhật tiền (sai -25%)</button>
+    <button id="updateMoneyWrong50">Cập nhật tiền (sai -50%)</button>
+    <button id="updateMoneyWrong100">Cập nhật tiền (sai -100%)</button>
+    <hr>
+    <span>Nhập đề</span>
+    <form id="fileForm" style="display:inline">
+      <input type="file" name="file" id="fileInput" accept=".xlsx" style="color:white;font-size:25pt">
+    </form>
+    <hr>
+    <span>Vòng chia tiền</span>
+    <button id="divideMoneyRound">Chia tiền</button>
+    <button id="15sThoughts">15s nói suy nghĩ</button>
+    <button id="showMoney50">Hiện 50%</button>
+    <button id="showMoney30">Hiện 30%</button>
+    <button id="showMoney20">Hiện 20%</button>
+    <button id="countdown100DivideMoney">Đếm ngược 100s</button>
+    <button id="countdown50DivideMoney">Đếm ngược 50s</button>
+    <hr>
+    <span>Reset</span>
+    <button id="resetPlayerAnswers">Reset đáp án NC</button>
+    <button id="resetTimeAndMoneyCountdown">Reset đếm ngược thời gian và tiền</button>
+    <hr>
+    <span>Mạng & Giành quyền</span>
+    <button id="show3Hearts">Còn 3 mạng</button>
+    <button id="show2Hearts">Còn 2 mạng</button>
+    <button id="show1Heart">Còn 1 mạng</button>
+    <button id="show0Hearts">Hết mạng</button>
+    <button id="show2Takeovers">Còn 2 giành quyền</button>
+    <button id="show1Takeover">Còn 1 giành quyền</button>
+    <button id="show0Takeover">Hết giành quyền</button>
+    <hr>
+    <span>(Web gpx)Đồ họa</span>
+    <button id="fadeoutQnAGpx">Fadeout gpx câu hỏi</button>
+    <button id="fadeinQnAGpx">Fadein gpx câu hỏi</button>
+    <button id="fadeoutMoneyGpx">Fadeout gpx chia tiền</button>
+    <button id="fadeinMoneyGpx">Fadein gpx chia tiền</button>
+    <hr>
+    <span>(Web gpx)Đáp án đúng</span>
+    <button id="correctAnsA">A</button>
+    <button id="correctAnsB">B</button>
+    <button id="correctAnsC">C</button>
+    <button id="correctAnsAB">AB</button>
+    <button id="correctAnsAC">AC</button>
+    <button id="correctAnsBC">BC</button>
+    <button id="correctAnsABC">ABC</button>
+    <button id="correctAnsACB">ACB</button>
+    <button id="correctAnsBAC">BAC</button>
+    <button id="correctAnsBCA">BCA</button>
+    <button id="correctAnsCAB">CAB</button>
+    <button id="correctAnsCBA">CBA</button>
+    <hr>
+    <span>Âm thanh</span>
+    <button id="playIntro">Intro</button>
+    <button id="playContestantsEntrance">Giới thiệu 3 NC</button>
+    <button id="playBedAfterAnswer">Nhạc nền sau khi trả lời</button>
+    <button id="playShareBed">Nhạc nền chia tiền</button>
+    <button id="playWinLoseBed">Nền thắng cuộc/thua cuộc</button>
+    <button id="playOutro">Outro</button>
+    <button id="stopAllSounds">Dừng tất cả âm thanh</button>
+  </div>
+
+  <div id="playArea">
+    <div id="playersLockinStatus">
+      <div id="player1">
+        <div class="playerNameDiv">
+          <p class="playerNameP">NC1</p>
+        </div>
+        <div class="playerAnsDiv">
+          <p class="playerAnsP"></p>
+        </div>
+      </div>
+      <div id="player2">
+        <div class="playerNameDiv">
+          <p class="playerNameP">NC2</p>
+        </div>
+        <div class="playerAnsDiv">
+          <p class="playerAnsP"></p>
+        </div>
+      </div>
+      <div id="player3">
+        <div class="playerNameDiv">
+          <p class="playerNameP">NC3</p>
+        </div>
+        <div class="playerAnsDiv">
+          <p class="playerAnsP"></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="totalMoney">
+      <div id="ifWrong" class="totalMoneyDivs"></div>
+      <div id="currentTotalDiv" class="totalMoneyDivs"></div>
+      <div id="ifCorrect" class="totalMoneyDivs"></div>
+    </div>
+    <div id="qna">
+      <div id="q">
+        <p></p>
+      </div>
+      <div id="a" class="letter">
+        <p>A</p>
+      </div>
+      <div id="b" class="letter">
+        <p>B</p>
+      </div>
+      <div id="c" class="letter">
+        <p>C</p>
+      </div>
+      <div id="ans1" class="ans">
+        <button></button>
+      </div>
+      <div id="ans2" class="ans">
+        <button></button>
+      </div>
+      <div id="ans3" class="ans">
+        <button></button>
+      </div>
+      <div id="del">
+        <button>Xóa</button>
+      </div>
+      <div id="timer"></div>
+      <div id="rnq"></div>
+      <div id="thisQuestionMoney"></div>
+      <div id="heartsContainer">
+        <div id="heart1" class="heart"></div>
+        <div id="heart2" class="heart"></div>
+        <div id="heart3" class="heart"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="socket.io/socket.io.js"></script>
+  <script src="../scripts/jquery-3.7.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"
+    integrity="sha512-xi/RZRIF/S0hJ+yJJYuZ5yk6/8pCiRlEXZzoguSMl+vk2i3m6UjUO/WcZ11blRL/O+rnj94JRGwt/CHbc9+6EA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js"
+    integrity="sha512-NDQhXrK2pOCL18FV5/Nc+ya9Vz+7o8dJV1IGRwuuYuRMFhAR0allmjWdZCSHFLDYgMvXKyN2jXlSy2JJEmq+ZA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script src="../scripts/playerGeneral.js"></script>
+  <script type="module" src="../scripts/control.js"></script>
+
+</body>
+
+</html>

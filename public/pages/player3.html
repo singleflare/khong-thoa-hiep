@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player 3</title>
+  <link rel="stylesheet" href="../styles/player.css">
+</head>
+
+<body>
+  <div id="playersLockinStatus">
+    <div id="player1">
+      <div class="playerNameDiv">
+        <p class="playerNameP">NC1</p>
+      </div>
+      <div class="playerAnsDiv">
+        <p class="playerAnsP"></p>
+      </div>
+    </div>
+    <div id="player2">
+      <div class="playerNameDiv">
+        <p class="playerNameP">NC2</p>
+      </div>
+      <div class="playerAnsDiv">
+        <p class="playerAnsP"></p>
+      </div>
+    </div>
+    <div id="player3">
+      <div class="playerNameDiv">
+        <p class="playerNameP">NC3</p>
+      </div>
+      <div class="playerAnsDiv">
+        <p class="playerAnsP"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="totalMoney">
+    <div id="ifWrong" class="totalMoneyDivs"></div>
+    <div id="currentTotalDiv" class="totalMoneyDivs"></div>
+    <div id="ifCorrect" class="totalMoneyDivs"></div>
+  </div>
+  <div id="buzzer">
+    <button onclick="pressBuzzer()">Chốt đáp án</button>
+  </div>
+  <div id="gianhquyen">
+    <button>Giành quyền</button>
+  </div>
+
+  <div id="qna">
+    <div id="q">
+      <p></p>
+    </div>
+    <div id="a" class="letter">
+      <p>A</p>
+    </div>
+    <div id="b" class="letter">
+      <p>B</p>
+    </div>
+    <div id="c" class="letter">
+      <p>C</p>
+    </div>
+    <div id="ans1" class="ans">
+      <button></button>
+    </div>
+    <div id="ans2" class="ans">
+      <button></button>
+    </div>
+    <div id="ans3" class="ans">
+      <button></button>
+    </div>
+    <div id="del">
+      <button>Xóa</button>
+    </div>
+    <div id="timer"></div>
+    <div id="rnq"></div>
+    <div id="thisQuestionMoney"></div>
+    <div id="heartsContainer">
+      <div id="heart1" class="heart"></div>
+      <div id="heart2" class="heart"></div>
+      <div id="heart3" class="heart"></div>
+    </div>
+  </div>
+  <script src="socket.io/socket.io.js"></script>
+  <script src="../scripts/jquery-3.7.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"
+    integrity="sha512-xi/RZRIF/S0hJ+yJJYuZ5yk6/8pCiRlEXZzoguSMl+vk2i3m6UjUO/WcZ11blRL/O+rnj94JRGwt/CHbc9+6EA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="../scripts/playerGeneral.js"></script>
+  <script src="../scripts/player3.js"></script>
+</body>
+
+</html>

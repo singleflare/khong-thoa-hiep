@@ -1,0 +1,316 @@
+:root {
+  --main: #358BA0;
+  --correct: #7CFC00;
+  --wrong: #C00000;
+  --orange: #ED9121;
+  --orange-disabled: #ed912168;
+  --gold: #FFD700;
+}
+
+body {
+  background-color: black;
+  position: relative;
+  user-select: none;
+  font-family: 'San Francisco Display';
+}
+
+p,
+span {
+  color: white;
+  text-align: center;
+  margin: 0;
+}
+
+@font-face {
+  font-family: 'San Francisco Display';
+  src: url('../fonts/SFCompactDisplay-Bold.otf');
+}
+
+#playersLockinStatus {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+
+  position: absolute;
+  left: 230px;
+  width: 600px;
+}
+
+#totalMoney {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  position: absolute;
+  left: 888px;
+}
+
+#totalMoney div {
+  color: white;
+  font-family: 'San Francisco Display';
+  text-align: center;
+
+  border-width: 3px;
+  border-style: solid;
+  background-color: black;
+}
+
+.totalMoneyDivs {
+  font-size: 25pt;
+  width: 300px;
+}
+
+#currentTotal {}
+
+#ifCorrect {
+  border-color: var(--correct);
+}
+
+#ifWrong {
+  border-color: var(--wrong);
+}
+
+.playerNameDiv {
+  font-size: 15pt;
+  border: 3px solid var(--main);
+  background-color: black;
+  width: 150px;
+}
+
+.playerAnsDiv {
+  font-size: 25pt;
+  border: 3px solid var(--main);
+  background-color: black;
+  width: 150px;
+  color: white;
+}
+
+.playerAnsP {
+  height: 40px;
+}
+
+#buzzer {
+  position: absolute;
+}
+
+#buzzer button {
+  position: absolute;
+  font-family: 'San Francisco Display';
+  left: 230px;
+  top: 80px;
+  width: 1426px;
+  height: 150px;
+  font-size: 25pt;
+  background-color: white;
+  border-width: 0;
+}
+
+#buzzer button:disabled {
+  background-color: gray;
+}
+
+#gianhquyen button {
+  position: absolute;
+  font-family: 'San Francisco Display';
+  left: 1656px;
+  top: 80px;
+  width: 150px;
+  height: 150px;
+  font-size: 25pt;
+  background-color: var(--orange);
+  border-width: 0;
+}
+
+#gianhquyen button:disabled {
+  background-color: gray;
+}
+
+#qna {
+  position: absolute;
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  background-repeat: no-repeat;
+  height: 342px;
+  top: 275px;
+  width: 1694px;
+  left: 103px;
+}
+
+#qna p {}
+
+#q {
+  position: absolute;
+  transform: skew(-18deg);
+  border: 3px solid var(--main);
+  background-color: black;
+  color: white;
+  width: 1573.5px;
+  height: 110px;
+  top: 10px;
+  left: 90px;
+}
+
+#q p {
+  font-size: 28pt;
+}
+
+.ans {}
+
+.ans button {
+  font-size: 25pt;
+  font-family: 'San Francisco Display';
+  transform: skew(-18deg);
+  border: 3px solid var(--main);
+  background-color: black;
+  color: white;
+  width: 1490px;
+  height: 70px;
+  text-align: left;
+}
+
+.ans button:hover {
+  background-color: var(--main);
+  color: black;
+}
+
+#ans1 {
+  position: absolute;
+  top: 125px;
+  left: 149.5px
+}
+
+#ans2 {
+  position: absolute;
+  top: 194px;
+  left: 127px
+}
+
+#ans3 {
+  position: absolute;
+  top: 261.5px;
+  left: 105px
+}
+
+.letter {
+  font-size: 40pt;
+  transform: skew(-18deg);
+  border: 3px solid var(--main);
+  background-color: black;
+  width: 85px;
+  height: 64px;
+}
+
+#a {
+  position: absolute;
+  top: 125px;
+  left: 60px;
+}
+
+#b {
+  position: absolute;
+  top: 194px;
+  left: 37.5px;
+}
+
+#c {
+  position: absolute;
+  top: 262px;
+  left: 15.5px;
+}
+
+#del {
+  position: absolute;
+  top: 329px;
+  left: 1502px;
+}
+
+#del button {
+  font-size: 25pt;
+  font-family: 'San Francisco Display';
+  transform: skew(-18deg);
+  border: 3px solid var(--main);
+  background-color: black;
+  color: white;
+}
+
+#del button:hover {
+  background-color: var(--main);
+  color: black;
+}
+
+#heartsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  position: absolute;
+  top: -40px;
+  left: 1510px;
+  width: 180px;
+  height: 46px;
+
+  font-size: 15pt;
+  transform: skew(-18deg);
+  border: 3px solid var(--main);
+  background-color: black;
+}
+
+.heart {
+  height: 30px;
+  width: 30px;
+  background-color: white;
+  border-radius: 50%;
+  display: inline-block;
+  margin-top: 8px;
+  transform: skew(18deg);
+}
+
+#rnq {
+  position: absolute;
+  top: -40px;
+  left: 117px;
+
+  text-align: center;
+  font-family: 'San Francisco Display';
+  font-size: 25pt;
+  color: white;
+
+  transform: skew(-18deg);
+  border: 3px solid var(--main);
+  background-color: black;
+  width: 300px;
+  height: 46px;
+}
+
+#timer {
+  position: absolute;
+  top: -40px;
+  left: 1068px;
+
+  text-align: center;
+  font-family: 'San Francisco Display';
+  font-size: 30pt;
+  color: white;
+
+  transform: skew(-18deg);
+  border: 3px solid var(--main);
+  background-color: black;
+  width: 85px;
+  height: 46px;
+}
+
+#thisQuestionMoney {
+  position: absolute;
+  top: -40px;
+  left: 1157px;
+
+  text-align: center;
+  font-family: 'San Francisco Display';
+  font-size: 30pt;
+  color: white;
+
+  transform: skew(-18deg);
+  border: 3px solid var(--main);
+  background-color: black;
+  width: 350px;
+  height: 46px;
+}

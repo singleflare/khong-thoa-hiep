@@ -1,0 +1,30 @@
+#controlButtons {
+  display: block;
+}
+
+#playArea {
+  margin-top: 10px;
+}
+
+#controlButtons button {
+  border: 3px solid #fff;
+  background-color: black;
+  color: white;
+  font-size: 25pt;
+}
+
+#controlButtons button:hover {
+  background-color: white;
+  color: black;
+}
+
+#controlButtons span {
+  border: 3px solid #fff;
+  background-color: black;
+  color: white;
+  font-size: 25pt;
+}
+
+#qna {
+  top: 800px
+}
