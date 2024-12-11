@@ -1,7 +1,15 @@
+/*
+TODO:
+Add modify player names in controller
+Empty cloud data
+Add Wait for ans, intro 3 nc, bed chiatien,bed thangthua,outro
+Fix playerAns not reset (fixed)
+*/
+
 const express = require('express');
 const { join } = require('path');
 const { initializeApp } = require('firebase/app')
-const { getFirestore, collection, getDoc, doc, updateDoc } = require('firebase/firestore')
+const { getFirestore, getDoc, doc, updateDoc } = require('firebase/firestore')
 
 const app = express();
 
@@ -99,7 +107,7 @@ function checkAllBuzzed() {
         broadcastToAllPlayers('stopAllSoundsAndPlayStopOrGoPlay')
         gns.emit('stopAllSoundsAndPlayStopOrGoPlay')
       }
-      else if (p1Ans == 'B'){
+      else if (p1Ans == 'B') {
         broadcastToAllPlayers('stopAllSoundsAndPlayStopOrGoStop')
         gns.emit('stopAllSoundsAndPlayStopOrGoStop')
       }
@@ -108,7 +116,7 @@ function checkAllBuzzed() {
       broadcastToAllPlayers('stopAllSoundsAndPlaySharedLock')
       gns.emit('stopAllSoundsAndPlaySharedLock')
     }
-    else{
+    else {
       broadcastToAllPlayers('stopAllSoundsAndPlayLockIn')
       gns.emit('stopAllSoundsAndPlayLockIn')
     }
@@ -173,6 +181,7 @@ async function initStates() {
     initData.player3Name = data.player3Name
   })
 }
+
 let takeoverLocked = false;
 p1ns.on('connection', p1Sock => {
   initStates().then(() => {
@@ -372,14 +381,14 @@ cns.on('connection', cSock => {
     if (!isDividedRound)
       gns.emit('showC')
   })
-  cSock.on('newQnA', (data, money) => {
+  cSock.on('newQnA', async (data, money) => {
     stopOrGoMode = false
     resetAns()
     takeoverLocked = false
     console.log(data, money)
     broadcastDataToAllPlayers('newQnA', data, money)
     gns.emit('newQnA', data, money)
-
+    await updateDocEntry('kth', 'states', { ansA: data.a, ansB: data.b, ansC: data.c })
   })
 
   cSock.on('stopOrGoMode', data => {
@@ -502,6 +511,14 @@ cns.on('connection', cSock => {
   })
   cSock.on('play15sOpinion', () => {
     broadcastToAllPlayers('play15sOpinion')
+  })
+  cSock.on('resetData', async () => {
+    await updateDocEntry('kth', 'states', { ansA: '', ansB: '', ansC: '', currentTotalVar: '', player1Ans: '', player2Ans: '', player3Ans: '', player1Name: '', player2Name: '', player3Name: '' })
+  })
+  cSock.on('updatePlayerNames', async(data) => {
+    await updateDocEntry('kth', 'states', { player1Name: data.p1, player2Name: data.p2, player3Name: data.p3 })
+    broadcastDataToAllPlayers('updatePlayerNames', data)
+    gns.emit('updatePlayerNames', data)
   })
   cSock.on('disconnect', () => { })
 })

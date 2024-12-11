@@ -320,3 +320,8 @@ p3Sock.on('updateNumberOfTakeovers', data => {
 p3Sock.on('updateNumberOfHearts', data => {
   updateNumberOfHearts(data)
 })
+p3Sock.on('updatePlayerNames', data => {
+  p1NameP.text(data.p1)
+  p2NameP.text(data.p2)
+  p3NameP.text(data.p3)
+})

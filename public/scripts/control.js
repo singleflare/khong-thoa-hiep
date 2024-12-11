@@ -83,7 +83,9 @@ const fadeoutQnAGpxBtn = $('#fadeoutQnAGpx')
 const fadeinQnAGpxBtn = $('#fadeinQnAGpx')
 const fadeoutMoneyGpxBtn = $('#fadeoutMoneyGpx')
 const fadeinMoneyGpxBtn = $('#fadeinMoneyGpx')
-
+const updatePlayerNamesBtn = $('#updatePlayerNames')
+const resetDataBtn = $('#resetData')
+const p1NameInput = $('#inputPlayer1Name')
 
 const playIntroSoundBtn = $('#playIntro')
 const playContestantsEntranceSoundBtn = $('#playContestantsEntrance')
@@ -984,4 +986,11 @@ fadeoutMoneyGpxBtn.on('click', () => {
 })
 fadeinMoneyGpxBtn.on('click', () => {
   cSock.emit('fadeinMoneyGpx')
+})
+
+resetDataBtn.on('click', () => {
+  cSock.emit('resetData')
+})
+updatePlayerNamesBtn.on('click', () => {
+  cSock.emit('updatePlayerNames', { p1: $('#inputPlayer1Name').val(), p2: $('#inputPlayer2Name').val(), p3: $('#inputPlayer3Name').val() })
 })

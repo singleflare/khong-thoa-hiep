@@ -1,6 +1,7 @@
 const gSock = io('/gpx')
 
-function changePlayerAnserDivBorderColors(status) {
+function changePlayerAnswerDivBorderColors(status) {
+  console.log(status)
   if (status == 'correct') {
     $('.playerName').css('border-color', '#7CFC00')
     $('.playerAns').css('border-color', '#7CFC00')
@@ -56,7 +57,7 @@ function changeAllAnsBorderColors(status) {
 
 function resetPlayerAnswers() {
   $('.playerAns p').text('')
-  changePlayerAnserDivBorderColors('normal')
+  changePlayerAnswerDivBorderColors('normal')
 }
 
 function showQuestion() {
@@ -66,6 +67,7 @@ function showQuestion() {
   $('#heartsContainer').addClass('fade-in')
   $('#currentMoney').addClass('fade-in')
   $('#greenMoneyBar').addClass('fade-in')
+  $('#playerAnsContainer').addClass('appearUpToDown')
   revealQuestionSound.play()
 }
 
@@ -97,7 +99,6 @@ function runTimer() {
   $('#currentMoney').removeClass('fade-in')
   $('#currentMoney').addClass('uptodown')
   $('#green').addClass('uptodown')
-  $('#playerAnsContainer').addClass('appearUpToDown')
   Howler.stop()
   clockSound.play()
 }
@@ -188,8 +189,8 @@ gSock.on('newQnA', (data, money) => {
   $('#letterB p').text('B')
   $('#letterC p').text('C')
   $('.playerAns p').css('font-size', '40pt')
-  $('.playerAns p').css('margin-top:17px')
-  console.log(money)
+  $('.playerAns p').css('margin-top', '17px')
+  $('.playerAns p').text('')
   $('#thisRoundMoney').text(money)
   $('#rnq p').text(data.i)
   $('#questionBar td').text(data.q)
@@ -203,6 +204,7 @@ gSock.on('newQnA', (data, money) => {
   $('#fifteenSecTimer').removeClass('fade-out')
   $('#fifteenSecTimer').removeClass('fade-in')
 
+  changePlayerAnswerDivBorderColors('normal')
   changeAllAnsBorderColors('normal')
   resetPlayerAnswers()
   resetAnimation()
@@ -212,6 +214,10 @@ gSock.on('stopOrGoMode', () => {
   $('.playerAns p').css('font-size', '30pt')
   $('.playerAns p').css('margin-top', '5px')
   $('.playerAns p').text('')
+  changePlayerAnswerDivBorderColors('normal')
+  changeAllAnsBorderColors('normal')
+  resetPlayerAnswers()
+  resetAnimation()
   $('#fifteenSecTimer p').text('15')
   $('#fifteenSecTimer').removeClass('fade-out')
   $('#fifteenSecTimer').removeClass('fade-in')
@@ -279,7 +285,7 @@ gSock.on('p1gianhquyen', data => {
   $('#player1Ans p').text(data)
   $('#player2Ans p').text(data)
   $('#player3Ans p').text(data)
-  changePlayerAnserDivBorderColors('buzzed')
+  changePlayerAnswerDivBorderColors('buzzed')
   $('#player1Ans').css('border-color', '#FFD700')
   $('#player1Name').css('border-color', '#FFD700')
   $(`#ans${data}`).css('border-color', '#ED9121')
@@ -291,7 +297,7 @@ gSock.on('p2gianhquyen', data => {
   $('#player1Ans p').text(data)
   $('#player2Ans p').text(data)
   $('#player3Ans p').text(data)
-  changePlayerAnserDivBorderColors('buzzed')
+  changePlayerAnswerDivBorderColors('buzzed')
   $('#player2Ans').css('border-color', '#FFD700')
   $('#player2Name').css('border-color', '#FFD700')
   $(`#ans${data}`).css('border-color', '#ED9121')
@@ -303,7 +309,7 @@ gSock.on('p3gianhquyen', data => {
   $('#player1Ans p').text(data)
   $('#player2Ans p').text(data)
   $('#player3Ans p').text(data)
-  changePlayerAnserDivBorderColors('buzzed')
+  changePlayerAnswerDivBorderColors('buzzed')
   $('#player3Ans').css('border-color', '#FFD700')
   $('#player3Name').css('border-color', '#FFD700')
   $(`#ans${data}`).css('border-color', '#ED9121')
@@ -339,7 +345,7 @@ gSock.on('highlightChosenAnswer', data => {
 gSock.on('correctAns', () => {
   Howler.stop()
   correctSound.play()
-  changePlayerAnserDivBorderColors('correct')
+  changePlayerAnswerDivBorderColors('correct')
   if (currentAns.length == 1) {
     $(`#ans${currentAns}`).css('border-color', '#7CFC00')
     $(`#letter${currentAns}`).css('border-color', '#7CFC00')
@@ -358,7 +364,7 @@ gSock.on('correctAns', () => {
 gSock.on('wrongAns', () => {
   Howler.stop()
   incorrectSound.play()
-  changePlayerAnserDivBorderColors('wrong')
+  changePlayerAnswerDivBorderColors('wrong')
   if (currentAns.length == 1) {
     $(`#ans${currentAns}`).css('border-color', '#C00000')
     $(`#letter${currentAns}`).css('border-color', '#C00000')
@@ -546,4 +552,10 @@ gSock.on('playyWaitForCorrectAnswer', () => {
 
 gSock.on('stopAllSounds', () => {
   Howler.stop()
+})
+
+gSock.on('updatePlayerNames', (data) => {
+  $('#player1Name p').text(data.p1)
+  $('#player2Name p').text(data.p2)
+  $('#player3Name p').text(data.p3)
 })

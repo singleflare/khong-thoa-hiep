@@ -26,5 +26,11 @@
 }
 
 #qna {
-  top: 800px
+  top: 1000px
+}
+
+.inputPlayerName {
+  display: inline;
+  width: 300px;
+  font-size: 25pt;
 }
