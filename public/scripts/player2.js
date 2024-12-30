@@ -326,3 +326,19 @@ p2Sock.on('updatePlayerNames', data => {
   p2NameP.text(data.p2)
   p3NameP.text(data.p3)
 })
+
+p2Sock.on('playBedAfterAnswerUK', () => {
+  bedAfterAnswerUKSound.play()
+})
+p2Sock.on('playContestantsEntranceBed', () => {
+  contestantsEntranceBedSound.play()
+})
+p2Sock.on('playWaitCorrectAnswerVio', () => {
+  waitCorrectAnswerVioSound.play()
+})
+p2Sock.on('playDivideFirstHalf', () => {
+  divideFirstHalfSound.play()
+})
+p2Sock.on('playDivideSecondHalf', () => {
+  divideSecondHalfSound.play()
+})

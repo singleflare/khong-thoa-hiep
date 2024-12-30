@@ -545,10 +545,36 @@ gSock.on('stopAllSoundsAndPlaySharedLock', () => {
 gSock.on('playBedAfterAnswer', () => {
   bedAfterAnswerSound.play()
 })
-gSock.on('playyWaitForCorrectAnswer', () => {
+gSock.on('playWaitForCorrectAnswer', () => {
   waitCorrectAnswerSound.play()
 })
-
+gSock.on('playBedAfterAnswerUK', () => {
+  bedAfterAnswerUKSound.play()
+})
+gSock.on('playContestantsEntrance', () => {
+  contestantsEntranceSound.play()
+})
+gSock.on('playContestantsEntranceBed', () => {
+  contestantsEntranceBedSound.play()
+})
+gSock.on('playWaitCorrectAnswerVio', () => {
+  waitCorrectAnswerVioSound.play()
+})
+gSock.on('playWaitCorrectAnswer', () => {
+  waitCorrectAnswerSound.play()
+})
+gSock.on('playDivideFirstHalf', () => {
+  divideFirstHalfSound.play()
+})
+gSock.on('playDivideSecondHalf', () => {
+  divideSecondHalfSound.play()
+})
+gSock.on('play15sOpinion', () => {
+  fifteenSecOpinionSound.play()
+})
+gSock.on('playShareBed', () => {
+  shareBedSound.play()
+})
 
 gSock.on('stopAllSounds', () => {
   Howler.stop()

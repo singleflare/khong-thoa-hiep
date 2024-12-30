@@ -85,7 +85,6 @@ const fadeoutMoneyGpxBtn = $('#fadeoutMoneyGpx')
 const fadeinMoneyGpxBtn = $('#fadeinMoneyGpx')
 const updatePlayerNamesBtn = $('#updatePlayerNames')
 const resetDataBtn = $('#resetData')
-const p1NameInput = $('#inputPlayer1Name')
 
 const playIntroSoundBtn = $('#playIntro')
 const playContestantsEntranceSoundBtn = $('#playContestantsEntrance')
@@ -95,6 +94,9 @@ const playShareBedBtn = $('#playShareBed')
 const playWinLoseBedBtn = $('#playWinLoseBed')
 const playOutroBtn = $('#playOutro')
 const stopAllSoundsBtn = $('#stopAllSounds')
+const playBedAfterAnswerUKBtn = $('#playBedAfterAnswerUK')
+const playContestantsEntranceSoundBedBtn = $('#playContestantsEntranceWithBed')
+const playWaitCorrectAnswerSoundVioBtn = $('#playWaitCorrectAnsVio')
 
 let testShow =
 {
@@ -713,6 +715,7 @@ async function divideMoneyRoundGraphics() {
 
 let divideMoneyCountdown, divideMoneyTimeCountdown, money50MinusInterval, money30MinusInterval, money20MinusInterval
 function divideMoneyRound100Countdown() {
+  cSock.emit('playDivideFirstHalf')
   money50 = currentTotal * 1 / 2
   money30 = currentTotal * 3 / 10
   money20 = currentTotal * 1 / 5
@@ -750,6 +753,7 @@ function divideMoneyRound100Countdown() {
   }, 1000)
 }
 function divideMoneyRound50Countdown() {
+  cSock.emit('playDivideSecondHalf')
   money50 = (currentTotal * 1 / 2)
   money30 = (currentTotal * 3 / 10)
   money20 = (currentTotal * 1 / 5)
@@ -914,6 +918,16 @@ playOutroBtn.on('click', () => {
 })
 stopAllSoundsBtn.on('click', () => {
   cSock.emit('stopAllSounds')
+})
+
+playBedAfterAnswerUKBtn.on('click', () => {
+  cSock.emit('playBedAfterAnswerUK')
+})
+playContestantsEntranceSoundBedBtn.on('click', () => {
+  cSock.emit('playContestantsEntranceBed')
+})
+playWaitCorrectAnswerSoundVioBtn.on('click', () => {
+  cSock.emit('playWaitCorrectAnswerVio')
 })
 
 show3HeartsBtn.on('click', () => {

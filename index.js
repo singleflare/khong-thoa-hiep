@@ -1,11 +1,3 @@
-/*
-TODO:
-Add modify player names in controller
-Empty cloud data
-Add Wait for ans, intro 3 nc, bed chiatien,bed thangthua,outro
-Fix playerAns not reset (fixed)
-*/
-
 const express = require('express');
 const { join } = require('path');
 const { initializeApp } = require('firebase/app')
@@ -511,11 +503,35 @@ cns.on('connection', cSock => {
   })
   cSock.on('play15sOpinion', () => {
     broadcastToAllPlayers('play15sOpinion')
+    gns.emit('play15sOpinion')
   })
+
+  cSock.on('playBedAfterAnswerUK', () => {
+    broadcastToAllPlayers('playBedAfterAnswerUK')
+    gns.emit('playBedAfterAnswerUK')
+  })
+  cSock.on('playContestantsEntranceBed', () => {
+    broadcastToAllPlayers('playContestantsEntranceBed')
+    gns.emit('playContestantsEntranceBed')
+  })
+  cSock.on('playWaitCorrectAnswerVio', () => {
+    broadcastToAllPlayers('playWaitCorrectAnswerVio')
+    gns.emit('playWaitCorrectAnswerVio')
+  })
+  cSock.on('playDivideFirstHalf', () => {
+    broadcastToAllPlayers('playDivideFirstHalf')
+    gns.emit('playDivideFirstHalf')
+  })
+  cSock.on('playDivideSecondHalf', () => {
+    broadcastToAllPlayers('playDivideSecondHalf')
+    gns.emit('playDivideSecondHalf')
+  })
+
+
   cSock.on('resetData', async () => {
     await updateDocEntry('kth', 'states', { ansA: '', ansB: '', ansC: '', currentTotalVar: '', player1Ans: '', player2Ans: '', player3Ans: '', player1Name: '', player2Name: '', player3Name: '' })
   })
-  cSock.on('updatePlayerNames', async(data) => {
+  cSock.on('updatePlayerNames', async (data) => {
     await updateDocEntry('kth', 'states', { player1Name: data.p1, player2Name: data.p2, player3Name: data.p3 })
     broadcastDataToAllPlayers('updatePlayerNames', data)
     gns.emit('updatePlayerNames', data)

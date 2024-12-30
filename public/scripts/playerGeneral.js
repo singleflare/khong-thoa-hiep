@@ -54,6 +54,7 @@ const sharesLockSound = new Howl({
 })
 const bedAfterAnswerSound = new Howl({
   src: ['../media/Div_AfterAnsweringBed.mp3'],
+  volume: 0.5
 })
 const shareBedSound = new Howl({
   src: ['../media/Div_Shares_Bed.mp3'],
@@ -63,6 +64,24 @@ const winLoseSound = new Howl({
 })
 const outroSound = new Howl({
   src: ['../media/Div_Closing.mp3'],
+})
+
+const contestantsEntranceBedSound = new Howl({
+  src: ['../media/Div_GeneralBedIntro_DivideRnd.mp3'],
+})
+const waitCorrectAnswerVioSound = new Howl({
+  src: ['../media/Div_Suspense.mp3'],
+  volume: 0.3
+})
+const bedAfterAnswerUKSound = new Howl({
+  src: ['../media/Div_generalWaitForAnsBed.mp3'],
+})
+
+const divideFirstHalfSound = new Howl({
+  src: ['../media/Div_First50sDivided.mp3'],
+})
+const divideSecondHalfSound = new Howl({
+  src: ['../media/Div_Second50sDivided.mp3'],
 })
 
 const controlSocket = io('/control')
