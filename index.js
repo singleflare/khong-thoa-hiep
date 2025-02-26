@@ -113,6 +113,8 @@ function checkAllBuzzed() {
       gns.emit('stopAllSoundsAndPlayLockIn')
     }
     gns.emit('highlightChosenAnswer', p1Ans)
+    broadcastToAllPlayers('disableAnswers')
+    broadcastToAllPlayers('lockBuzzerAndTakeover')
   }
 }
 function checkAllSameAns() {
@@ -171,6 +173,8 @@ async function initStates() {
     initData.player1Name = data.player1Name
     initData.player2Name = data.player2Name
     initData.player3Name = data.player3Name
+    initData.numberOfHearts = data.numberOfHearts
+    initData.numberOfTakeovers = data.numberOfTakeovers
   })
 }
 
@@ -349,11 +353,13 @@ cns.on('connection', cSock => {
     console.log(cdMoney)
     broadcastDataToAllPlayers('updateCdMoney', cdMoney)
     gns.emit('updateCdMoney', cdMoney)
+    cns.emit('updateCdMoney', cdMoney)
   })
   cSock.on('hideQnA', () => {
     gns.emit('hideQnA')
   })
   cSock.on('showQ', () => {
+    console.log('showQ')
     broadcastToAllPlayers('showQ')
     gns.emit('showQ')
   })
@@ -380,7 +386,7 @@ cns.on('connection', cSock => {
     console.log(data, money)
     broadcastDataToAllPlayers('newQnA', data, money)
     gns.emit('newQnA', data, money)
-    await updateDocEntry('kth', 'states', { ansA: data.a, ansB: data.b, ansC: data.c })
+    await updateDocEntry('kth', 'states', { question: data.q, ansA: data.a, ansB: data.b, ansC: data.c })
   })
 
   cSock.on('stopOrGoMode', data => {
@@ -388,6 +394,12 @@ cns.on('connection', cSock => {
     resetAns()
     broadcastDataToAllPlayers('stopOrGoMode', data)
     gns.emit('stopOrGoMode')
+  })
+  cSock.on('enableAnswers', () => {
+    broadcastToAllPlayers('enableAnswers')
+  })
+  cSock.on('disableAnswers', () => {
+    broadcastToAllPlayers('disableAnswers')
   })
   cSock.on('correctAns', () => {
     broadcastToAllPlayers('correctAns')
@@ -525,6 +537,10 @@ cns.on('connection', cSock => {
   cSock.on('playDivideSecondHalf', () => {
     broadcastToAllPlayers('playDivideSecondHalf')
     gns.emit('playDivideSecondHalf')
+  })
+  cSock.on('playDivideSuccessBed', () => {
+    broadcastToAllPlayers('playDivideSuccessBed')
+    gns.emit('playDivideSuccessBed')
   })
 
 

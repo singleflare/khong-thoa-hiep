@@ -9,12 +9,14 @@ const clockSound = new Howl({
 })
 const lockInSound = new Howl({
   src: ['../media/Div_LockIn.mp3'],
+  volume: 0.5
 })
 const bankSound = new Howl({
-  src: ['../media/Div_Bank.wav'],
+  src: ['../media/Div_Bank.mp3'],
 })
 const questionAmountSound = new Howl({
-  src: ['../media/Div_QuestionAmount.wav'],
+  src: ['../media/Div_QuestionAmount.mp3'],
+  volume: 0.5
 })
 const correctSound = new Howl({
   src: ['../media/Div_Correct.mp3'],
@@ -71,7 +73,6 @@ const contestantsEntranceBedSound = new Howl({
 })
 const waitCorrectAnswerVioSound = new Howl({
   src: ['../media/Div_Suspense.mp3'],
-  volume: 0.3
 })
 const bedAfterAnswerUKSound = new Howl({
   src: ['../media/Div_generalWaitForAnsBed.mp3'],
@@ -82,6 +83,11 @@ const divideFirstHalfSound = new Howl({
 })
 const divideSecondHalfSound = new Howl({
   src: ['../media/Div_Second50sDivided.mp3'],
+})
+
+const divideSuccessBedSound = new Howl({
+  src: ['../media/Div_DivideSuccessBed.mp3'],
+  volume: 0.5
 })
 
 const controlSocket = io('/control')
@@ -108,32 +114,37 @@ const heart1Div = $('#heart1')
 const heart2Div = $('#heart2')
 const heart3Div = $('#heart3')
 
-const rnqDiv = $('#rnq')
-const qP = $('#q p')
-const timerText = $('#timer')
-const ansABtn = $('#ans1 button')
-const ansBBtn = $('#ans2 button')
-const ansCBtn = $('#ans3 button')
-const delBtn = $('#del button')
-const buzzer = $('#buzzer button')
-const gianhquyenBtn = $('#gianhquyen button')
+const rnqDiv = $('#rnq div')
+const qDiv = $('#q div')
+const timerText = $('#timer div')
+const ansABtn = $('#ans1')
+const ansBBtn = $('#ans2')
+const ansCBtn = $('#ans3')
+const ansADiv = $('#ans1 div')
+const ansBDiv = $('#ans2 div')
+const ansCDiv = $('#ans3 div')
+const delBtn = $('#del')
+const buzzer = $('#buzzer')
+const gianhquyenBtn = $('#gianhquyen')
 
-const thisQuestionMoneyDiv = $('#thisQuestionMoney')
-const moneyIfWrongDiv = $('#ifWrong')
-const currentTotalDiv = $('#currentTotalDiv')
-const moneyIfCorrectDiv = $('#ifCorrect')
+const thisQuestionMoneyDiv = $('#thisQuestionMoney div')
+const moneyIfWrongDiv = $('#ifWrong .money')
+const currentTotalDiv = $('#currentTotalDiv .money')
+const moneyIfCorrectDiv = $('#ifCorrect .money')
 
 let buzzerPressed = false
+let stopOrGoMode = false
+let divideMode = false
 
 document.getElementsByTagName('body')[0].addEventListener('contextmenu', e => {
   //e.preventDefault()
 })
 
 function hideAnswers() {
-  qP.css('opacity', '0')
-  ansABtn.css('opacity', '0')
-  ansBBtn.css('opacity', '0')
-  ansCBtn.css('opacity', '0')
+  qDiv.css('opacity', '0')
+  ansADiv.css('opacity', '0')
+  ansBDiv.css('opacity', '0')
+  ansCDiv.css('opacity', '0')
 }
 
 function hideMoneyIfWrongAndCorrect() {
@@ -143,7 +154,6 @@ function hideMoneyIfWrongAndCorrect() {
 
 function changePlayerAnserDivBorderColors(status) {
   if (status == 'correct') {
-    Howler.stop()
     correctSound.play()
     p1AnsDiv.css('border-color', '#7CFC00')
     p1NameDiv.css('border-color', '#7CFC00')
@@ -153,7 +163,6 @@ function changePlayerAnserDivBorderColors(status) {
     p3NameDiv.css('border-color', '#7CFC00')
   }
   else if (status == 'wrong') {
-    Howler.stop()
     incorrectSound.play()
     p1AnsDiv.css('border-color', '#C00000')
     p1NameDiv.css('border-color', '#C00000')
@@ -195,7 +204,7 @@ function newQuestionGraphicsReset() {
   changePlayerAnserDivBorderColors('normal')
   hideAnswers()
   buzzer.prop('disabled', true)
-  gianhquyenBtn.prop('disabled', true)
+  gianhquyenBtn.prop('disabled', true)//todo:gpx not showing 3 answes
 }
 
 let numberOfTakeovers;
@@ -225,4 +234,17 @@ function updateNumberOfHearts(num) {
     heart2Div.css('background-color', 'red')
     heart3Div.css('background-color', 'red')
   }
+}
+
+function disableAnswers() {
+  ansABtn.prop('disabled', true)
+  ansBBtn.prop('disabled', true)
+  ansCBtn.prop('disabled', true)
+  delBtn.prop('disabled', true)
+}
+function enableAnswers() {
+  ansABtn.prop('disabled', false)
+  ansBBtn.prop('disabled', false)
+  ansCBtn.prop('disabled', false)
+  delBtn.prop('disabled', false)
 }

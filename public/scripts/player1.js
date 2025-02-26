@@ -1,8 +1,8 @@
 p1Sock.on('init', data => {
-  console.log(data.currentTotal)
-  ansABtn.text(data.ansA)
-  ansBBtn.text(data.ansB)
-  ansCBtn.text(data.ansC)
+  qDiv.text(data.q)
+  ansADiv.text(data.ansA)
+  ansBDiv.text(data.ansB)
+  ansCDiv.text(data.ansC)
   currentTotalDiv.text(data.currentTotalVar)
   p1AnsP.text(data.player1Ans)
   p2AnsP.text(data.player2Ans)
@@ -10,6 +10,8 @@ p1Sock.on('init', data => {
   p1NameP.text(data.player1Name)
   p2NameP.text(data.player2Name)
   p3NameP.text(data.player3Name)
+  updateNumberOfHearts(data.numberOfHearts)
+  updateNumberOfTakeovers(data.numberOfTakeovers)
 })
 
 ansABtn.on('click', () => {
@@ -49,15 +51,17 @@ function pressBuzzer() {
 }
 
 function stopOrGo() {
-  qP.css('opacity', '1')
-  ansABtn.css('opacity', '1')
-  ansBBtn.css('opacity', '1')
-  ansCBtn.css('opacity', '1')
+  stopOrGoMode = true
+  disableAnswers()
+  qDiv.css('opacity', '1')
+  ansADiv.css('opacity', '1')
+  ansBDiv.css('opacity', '1')
+  ansCDiv.css('opacity', '1')
 
-  qP.text('Bạn muốn tiếp tục hay dừng lại?')
-  ansABtn.text('Tiếp tục')
-  ansBBtn.text('Dừng lại')
-  ansCBtn.text('')
+  qDiv.text('Bạn muốn tiếp tục hay dừng lại?')
+  ansADiv.text('Tiếp tục')
+  ansBDiv.text('Dừng lại')
+  ansCDiv.text('')
 
   ansABtn.on('click', () => {
     p1AnsP.text('Tiếp tục')
@@ -70,25 +74,25 @@ function stopOrGo() {
 }
 
 function normalRoundAnsEventHandler(ans) {
-  if (ans == 'A') {
+  console.log(p1AnsP)
+  if (ans == 'A' && p1AnsP.text().length < 3) {
     p1AnsP.append('A')
-    if (numberOfTakeovers > 0)
-      gianhquyenBtn.prop('disabled', false)
+    if (numberOfTakeovers > 0 && stopOrGoMode == false && divideMode == false) gianhquyenBtn.prop('disabled', false)
     let data = p1AnsP.text()
     p1Sock.emit('p1Ans', data)
     chooseAnsSound.play()
   }
-  if (ans == 'B') {
+  if (ans == 'B' && p1AnsP.text().length < 3) {
     p1AnsP.append('B')
-    if (numberOfTakeovers > 0)
+    if (numberOfTakeovers > 0 && stopOrGoMode == false && divideMode == false)
       gianhquyenBtn.prop('disabled', false)
     let data = p1AnsP.text()
     p1Sock.emit('p1Ans', data)
     chooseAnsSound.play()
   }
-  if (ans == 'C') {
+  if (ans == 'C' && p1AnsP.text().length < 3) {
     p1AnsP.append('C')
-    if (numberOfTakeovers > 0)
+    if (numberOfTakeovers > 0 && stopOrGoMode == false && divideMode == false)
       gianhquyenBtn.prop('disabled', false)
     let data = p1AnsP.text()
     p1Sock.emit('p1Ans', data)
@@ -111,7 +115,9 @@ p1Sock.on('p3gianhquyen', data => {
   changePlayerAnserDivBorderColors('buzzed')
   p3AnsDiv.css('border-color', '#FFD700')
   p3NameDiv.css('border-color', '#FFD700')
+  buzzer.prop('disabled', true)
   gianhquyenBtn.prop('disabled', true)
+  disableAnswers()
   Howler.stop()
   lockInSound.play()
 })
@@ -122,7 +128,9 @@ p1Sock.on('p2gianhquyen', data => {
   changePlayerAnserDivBorderColors('buzzed')
   p2AnsDiv.css('border-color', '#FFD700')
   p2NameDiv.css('border-color', '#FFD700')
+  buzzer.prop('disabled', true)
   gianhquyenBtn.prop('disabled', true)
+  disableAnswers()
   Howler.stop()
   lockInSound.play()
 })
@@ -133,7 +141,9 @@ p1Sock.on('p1gianhquyen', data => {
   changePlayerAnserDivBorderColors('buzzed')
   p1AnsDiv.css('border-color', '#FFD700')
   p1NameDiv.css('border-color', '#FFD700')
+  buzzer.prop('disabled', true)
   gianhquyenBtn.prop('disabled', true)
+  disableAnswers()
 })
 p1Sock.on('p2Buzz', () => {
   p2AnsDiv.css('border-color', '#ED9121')
@@ -163,19 +173,30 @@ p1Sock.on('p3Continue', () => {
 p1Sock.on('p3Stop', () => {
   p3AnsP.text('Dừng lại')
 })
+
+p1Sock.on('lockBuzzerAndTakeover', () => {
+  buzzer.prop('disabled', true)
+  gianhquyenBtn.prop('disabled', true)
+})
+
 p1Sock.on('play100s', () => {
-  clockSound.play()
   Howler.stop()
+  clockSound.play()
+  enableAnswers()
 })
 p1Sock.on('play15sStopOrGo', () => {
   stopOrGo15sSound.play()
+  enableAnswers()
 })
 p1Sock.on('play15sOpinion', () => {
   fifteenSecOpinionSound.play()
 })
+
 p1Sock.on('stopAllSoundsAndPlayLockIn', () => {
   Howler.stop()
   lockInSound.play()
+  disableAnswers()
+  buzzer.prop('disabled', true)
 })
 p1Sock.on('stopAllSoundsAndPlayStopOrGoPlay', () => {
   Howler.stop()
@@ -207,16 +228,16 @@ p1Sock.on('stopAllSounds', () => {
 
 p1Sock.on('showQ', () => {
   revealQuestionSound.play()
-  qP.css('opacity', '1')
+  qDiv.css('opacity', '1')
 })
 p1Sock.on('showA', () => {
-  ansABtn.css('opacity', '1')
+  ansADiv.css('opacity', '1')
 })
 p1Sock.on('showB', () => {
-  ansBBtn.css('opacity', '1')
+  ansBDiv.css('opacity', '1')
 })
 p1Sock.on('showC', () => {
-  ansCBtn.css('opacity', '1')
+  ansCDiv.css('opacity', '1')
 })
 p1Sock.on('correctAns', () => {
   changePlayerAnserDivBorderColors('correct')
@@ -231,15 +252,16 @@ p1Sock.on('resetTimeAndMoneyCountdown', () => {
   resetTimeAndMoneyCountdown()
 })
 p1Sock.on('divideMoneyRound', (data) => {
-  qP.css('opacity', '1')
+  divideMode = true
+  qDiv.css('opacity', '1')
   rnqDiv.text('Chia tiền')
-  qP.text('Bạn chọn mức tiền nào?')
-  ansABtn.css('opacity', '0')
-  ansBBtn.css('opacity', '0')
-  ansCBtn.css('opacity', '0')
-  ansABtn.text(data.a)
-  ansBBtn.text(data.b)
-  ansCBtn.text(data.c)
+  qDiv.text('Bạn chọn mức tiền nào?')
+  ansADiv.css('opacity', '0')
+  ansBDiv.css('opacity', '0')
+  ansCDiv.css('opacity', '0')
+  ansADiv.text(data.a)
+  ansBDiv.text(data.b)
+  ansCDiv.text(data.c)
 })
 p1Sock.on('lockBuzzer', () => {
   buzzer.prop('disabled', true)
@@ -250,27 +272,28 @@ p1Sock.on('unlockBuzzer', () => {
 
 //Question received
 p1Sock.on('newQnA', (data, money) => {
+  stopOrGoMode = false
+  divideMode = false
+  disableAnswers()
   newQuestionGraphicsReset()
   thisQuestionMoneyDiv.text(money)
   rnqDiv.text(data.i)
-  qP.text(data.q)
-  ansABtn.text(data.a)
-  ansBBtn.text(data.b)
-  ansCBtn.text(data.c)
-  if (data.i == 'Vòng 1 Câu 1' || data.i == 'Vòng 2 Câu 1' || data.i == 'Vòng 3 Câu 1' || data.i == 'Vòng 4 Câu 1' || data.i == 'Vòng 5 Câu 1') {
-    ansABtn.off('click')
-    ansBBtn.off('click')
-    ansCBtn.off('click')
-    ansABtn.on('click', () => {
-      normalRoundAnsEventHandler('A')
-    })
-    ansBBtn.on('click', () => {
-      normalRoundAnsEventHandler('B')
-    })
-    ansCBtn.on('click', () => {
-      normalRoundAnsEventHandler('C')
-    })
-  }
+  qDiv.text(data.q)
+  ansADiv.text(data.a)
+  ansBDiv.text(data.b)
+  ansCDiv.text(data.c)
+  ansABtn.off('click')
+  ansBBtn.off('click')
+  ansCBtn.off('click')
+  ansABtn.on('click', () => {
+    normalRoundAnsEventHandler('A')
+  })
+  ansBBtn.on('click', () => {
+    normalRoundAnsEventHandler('B')
+  })
+  ansCBtn.on('click', () => {
+    normalRoundAnsEventHandler('C')
+  })
 })
 p1Sock.on('stopOrGoMode', data => {
   rnqDiv.text(data)
@@ -311,9 +334,9 @@ p1Sock.on('showMoneyIfWrong', data => {
   questionAmountSound.play()
 })
 p1Sock.on('updateDividedMoneyAnswers', data => {
-  ansABtn.text(data.a)
-  ansBBtn.text(data.b)
-  ansCBtn.text(data.c)
+  ansADiv.text(data.a)
+  ansBDiv.text(data.b)
+  ansCDiv.text(data.c)
 })
 p1Sock.on('updateNumberOfTakeovers', data => {
   console.log(data)
@@ -327,6 +350,12 @@ p1Sock.on('updatePlayerNames', data => {
   p2NameP.text(data.p2)
   p3NameP.text(data.p3)
 })
+p1Sock.on('disableAnswers', () => {
+  disableAnswers()
+})
+p1Sock.on('enableAnswers', () => {
+  enableAnswers()
+})
 
 p1Sock.on('playBedAfterAnswerUK', () => {
   bedAfterAnswerUKSound.play()
@@ -336,10 +365,18 @@ p1Sock.on('playContestantsEntranceBed', () => {
 })
 p1Sock.on('playWaitCorrectAnswerVio', () => {
   waitCorrectAnswerVioSound.play()
+  setTimeout(() => {
+    bedAfterAnswerUKSound.stop()
+  }, 500)
 })
 p1Sock.on('playDivideFirstHalf', () => {
   divideFirstHalfSound.play()
+  enableAnswers()
 })
 p1Sock.on('playDivideSecondHalf', () => {
   divideSecondHalfSound.play()
+  enableAnswers()
+})
+p1Sock.on('playDivideSuccessBed', () => {
+  divideSuccessBedSound.play()
 })

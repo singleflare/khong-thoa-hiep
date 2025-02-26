@@ -1,36 +1,216 @@
-#controlButtons {
-  display: block;
+@font-face {
+  font-family: 'San Francisco Display';
+  src: url('../fonts/SFCompactDisplay-Bold.otf');
 }
 
-#playArea {
-  margin-top: 10px;
+* {
+  font-family: 'San Francisco Display';
+  color: white;
 }
 
-#controlButtons button {
-  border: 3px solid #fff;
+p {
+  font-size: 15pt
+}
+
+#wholePage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 1920px;
+  height: 1080px;
+  margin: auto;
+  overflow: hidden;
+}
+
+body {
+  background-color: black;
+}
+
+button {
+  border: 1px solid #fff;
   background-color: black;
   color: white;
-  font-size: 25pt;
+  font-size: 18pt;
 }
 
-#controlButtons button:hover {
+button:hover {
   background-color: white;
   color: black;
 }
 
-#controlButtons span {
-  border: 3px solid #fff;
-  background-color: black;
+input {
   color: white;
-  font-size: 25pt;
+  font-size: 15pt;
 }
 
-#qna {
-  top: 1000px
+.label {
+  background-color: white;
+  color: black;
+  text-align: center;
+  font-size: 18pt;
+  width: 100%;
 }
 
-.inputPlayerName {
-  display: inline;
-  width: 300px;
-  font-size: 25pt;
+#qnaControl {
+  border: 2px solid white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1000px;
+  height: 1080px;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+#fileInput {
+  top: 10px;
+}
+
+#questionsContainer {
+  font-size: 0;
+}
+
+#questionsContainer button {
+  padding: 3px;
+  font-size: 16pt;
+  width: 100%;
+}
+
+#qnaControl div {}
+
+#qnaControl,
+#gpxWebControl,
+#musicControl {
+  background-color: black;
+}
+
+#gpxWebControl {
+  position: absolute;
+  top: 0;
+  left: 1000px;
+  width: calc(1920px - 1000px);
+  height: 800px;
+  border: 2px solid white;
+}
+
+#gpxIframe {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: top left;
+  scale: 0.48;
+}
+
+#musicControl {
+  position: absolute;
+  top: 800px;
+  left: 1000px;
+  width: calc(1920px - 1000px);
+  height: calc(1080px - 800px);
+  border: 2px solid white;
+}
+
+#question {
+  text-align: center;
+}
+
+#question,
+#ansA,
+#ansB,
+#ansC {
+  border: 2px solid white;
+  box-sizing: border-box;
+}
+
+#question p,
+#ansA p,
+#ansB p,
+#ansC p,
+#explaination p {
+  margin: 0;
+  color: white;
+}
+
+#question,
+#answers {
+  height: 7%;
+}
+
+#explaination {
+  text-align: center;
+  height: 15%;
+}
+
+#explaination p {
+  font-size: 15pt;
+}
+
+#ansA,
+#ansB,
+#ansC {
+  width: 100%;
+}
+
+.flexContainer {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+#show div,
+#container2 div {
+  width: 100%;
+}
+
+#show button {
+  width: 100%;
+}
+
+#pAns div,
+#money div,
+#heartsAndTakeovers div {
+  width: 100%;
+  border: 2px solid white;
+}
+
+#heartsAndTakeovers .flexContainer {
+  flex-direction: row;
+}
+
+#pAns div p,
+#money div p,
+#heartsAndTakeovers p {
+  margin: 0;
+}
+
+#pAns .ansLetter,
+#money .number,
+#heartsAndTakeovers #hearts,
+#heartsAndTakeovers #takeovers,
+#correctAnsIs .ans,
+#time .number,
+#thisQuestionMoney .number {
+  font-size: 22pt;
+}
+
+#heartsAndTakeovers .flexContainer button {
+  width: 100%;
+}
+
+#previewAndUpdateLabels p {
+  margin: 0;
+  margin: auto;
+  font-size: 18pt;
+}
+
+#previewAndUpdateLabels>*,
+#previewAndUpdateButtons>* {
+  width: 100%;
+}
+
+#previewAndUpdateButtons div button {
+  width: 100%;
+  font-size: 18pt;
 }

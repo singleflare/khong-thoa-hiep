@@ -24,25 +24,25 @@ async function updateDocEntry(col, docId, data) {
 let currentTotal;
 $(async function () {
   const res = await getDocEntry('kth', 'states');
-  cSock.emit('updateCurrentTotal', res.currentTotalVar);
-  currentTotalDiv.text(res.currentTotalVar);
-  currentTotal = res.currentTotalVar;
-  console.log(currentTotal)
+  let currentTotalInt = parseInt(res.currentTotalVar);
+  cSock.emit('updateCurrentTotal', currentTotalInt);
+  $('#money #current .number').text(currentTotalInt);
+  currentTotal = parseInt(currentTotalInt);
 })
 console.log(currentTotal)
 
 const cSock = io('/control')
 
-const countdown100Btn = $('#cd100')
-const countdown15Btn = $('#cd15')
+const start100Btn = $('#show #start100')
+const start15Btn = $('#show #start15')
 const countdown15DividedBtn = $('#15sThoughts')
 const prevQBtn = $('#prevQ')
 const nextQBtn = $('#nextQ')
 const divideMoneyRoundBtn = $('#divideMoneyRound')
-const showQBtn = $('#showQBtn')
-const showABtn = $('#showABtn')
-const showBBtn = $('#showBBtn')
-const showCBtn = $('#showCBtn')
+const showQBtn = $('#show #q')
+const showABtn = $('#show #a')
+const showBBtn = $('#show #b')
+const showCBtn = $('#show #c')
 const correctAnsBtn = $('#correctAns')
 const wrongAnsBtn = $('#wrongAns')
 const showMoneyIfCorrectBtn = $('#showMoneyIfCorrect')
@@ -97,6 +97,17 @@ const stopAllSoundsBtn = $('#stopAllSounds')
 const playBedAfterAnswerUKBtn = $('#playBedAfterAnswerUK')
 const playContestantsEntranceSoundBedBtn = $('#playContestantsEntranceWithBed')
 const playWaitCorrectAnswerSoundVioBtn = $('#playWaitCorrectAnsVio')
+const playDivideSuccessBedBtn = $('#playDivideSuccessBed')
+
+const timerText = $('#time .number')
+const thisQuestionMoneyDiv = $('#thisQuestionMoney .number')
+const qDiv = $('#question p')
+const ansADiv = $('#ansA p')
+const ansBDiv = $('#ansB p')
+const ansCDiv = $('#ansC p')
+const p1AnsP = $('#player1 .ansLetter')
+const p2AnsP = $('#player2 .ansLetter')
+const p3AnsP = $('#player3 .ansLetter')
 
 let testShow =
 {
@@ -200,6 +211,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r1q2: {
     i: 'Vòng 1 Câu 2',
@@ -207,6 +220,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r1q3: {
     i: 'Vòng 1 Câu 3',
@@ -214,6 +229,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r1q4: {
     i: 'Vòng 1 Câu 4',
@@ -221,6 +238,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r1q5: {
     i: 'Vòng 1 Câu 5',
@@ -228,6 +247,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r2q1: {
     i: 'Vòng 2 Câu 1',
@@ -235,6 +256,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r2q2: {
     i: 'Vòng 2 Câu 2',
@@ -242,6 +265,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r2q3: {
     i: 'Vòng 2 Câu 3',
@@ -249,6 +274,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r2q4: {
     i: 'Vòng 2 Câu 4',
@@ -256,6 +283,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r3q1: {
     i: 'Vòng 3 Câu 1',
@@ -263,6 +292,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r3q2: {
     i: 'Vòng 3 Câu 2',
@@ -270,6 +301,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r3q3: {
     i: 'Vòng 3 Câu 3',
@@ -277,6 +310,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r4q1: {
     i: 'Vòng 4 Câu 1',
@@ -284,6 +319,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r4q2: {
     i: 'Vòng 4 Câu 2',
@@ -291,6 +328,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
   r5q1: {
     i: 'Vòng 5 Câu 1',
@@ -298,6 +337,8 @@ let questions =
     a: '',
     b: '',
     c: '',
+    ca: '',
+    exp: ''
   },
 }
 
@@ -310,75 +351,129 @@ $('#fileInput').on('change', async function (e) {
   questions.r1q1.a = sheet.C3.v
   questions.r1q1.b = sheet.D3.v
   questions.r1q1.c = sheet.E3.v
+  questions.r1q1.ca = sheet.F3.v
+  questions.r1q1.exp = sheet.G3.v
   questions.r1q2.q = sheet.B4.v
   questions.r1q2.a = sheet.C4.v
   questions.r1q2.b = sheet.D4.v
   questions.r1q2.c = sheet.E4.v
+  questions.r1q2.ca = sheet.F4.v
+  questions.r1q2.exp = sheet.G4.v
   questions.r1q3.q = sheet.B5.v
   questions.r1q3.a = sheet.C5.v
   questions.r1q3.b = sheet.D5.v
   questions.r1q3.c = sheet.E5.v
+  questions.r1q3.ca = sheet.F5.v
+  questions.r1q3.exp = sheet.G5.v
   questions.r1q4.q = sheet.B6.v
   questions.r1q4.a = sheet.C6.v
   questions.r1q4.b = sheet.D6.v
   questions.r1q4.c = sheet.E6.v
+  questions.r1q4.ca = sheet.F6.v
+  questions.r1q4.exp = sheet.G6.v
   questions.r1q5.q = sheet.B7.v
   questions.r1q5.a = sheet.C7.v
   questions.r1q5.b = sheet.D7.v
   questions.r1q5.c = sheet.E7.v
+  questions.r1q5.ca = sheet.F7.v
+  questions.r1q5.exp = sheet.G7.v
   questions.r2q1.q = sheet.B9.v
   questions.r2q1.a = sheet.C9.v
   questions.r2q1.b = sheet.D9.v
   questions.r2q1.c = sheet.E9.v
+  questions.r2q1.ca = sheet.F9.v
+  questions.r2q1.exp = sheet.G9.v
   questions.r2q2.q = sheet.B10.v
   questions.r2q2.a = sheet.C10.v
   questions.r2q2.b = sheet.D10.v
   questions.r2q2.c = sheet.E10.v
+  questions.r2q2.ca = sheet.F10.v
+  questions.r2q2.exp = sheet.G10.v
   questions.r2q3.q = sheet.B11.v
   questions.r2q3.a = sheet.C11.v
   questions.r2q3.b = sheet.D11.v
   questions.r2q3.c = sheet.E11.v
+  questions.r2q3.ca = sheet.F11.v
+  questions.r2q3.exp = sheet.G11.v
   questions.r2q4.q = sheet.B12.v
   questions.r2q4.a = sheet.C12.v
   questions.r2q4.b = sheet.D12.v
   questions.r2q4.c = sheet.E12.v
+  questions.r2q4.ca = sheet.F12.v
+  questions.r2q4.exp = sheet.G12.v
   questions.r3q1.q = sheet.B14.v
   questions.r3q1.a = sheet.C14.v
   questions.r3q1.b = sheet.D14.v
   questions.r3q1.c = sheet.E14.v
+  questions.r3q1.ca = sheet.F14.v
+  questions.r3q1.exp = sheet.G14.v
   questions.r3q2.q = sheet.B15.v
   questions.r3q2.a = sheet.C15.v
   questions.r3q2.b = sheet.D15.v
   questions.r3q2.c = sheet.E15.v
+  questions.r3q2.ca = sheet.F15.v
+  questions.r3q2.exp = sheet.G15.v
   questions.r3q3.q = sheet.B16.v
   questions.r3q3.a = sheet.C16.v
   questions.r3q3.b = sheet.D16.v
   questions.r3q3.c = sheet.E16.v
+  questions.r3q3.ca = sheet.F16.v
+  questions.r3q3.exp = sheet.G16.v
   questions.r4q1.q = sheet.B18.v
   questions.r4q1.a = sheet.C18.v
   questions.r4q1.b = sheet.D18.v
   questions.r4q1.c = sheet.E18.v
+  questions.r4q1.ca = sheet.F18.v
+  questions.r4q1.exp = sheet.G18.v
   questions.r4q2.q = sheet.B19.v
   questions.r4q2.a = sheet.C19.v
   questions.r4q2.b = sheet.D19.v
   questions.r4q2.c = sheet.E19.v
+  questions.r4q2.ca = sheet.F19.v
+  questions.r4q2.exp = sheet.G19.v
   questions.r5q1.q = sheet.B21.v
   questions.r5q1.a = sheet.C21.v
   questions.r5q1.b = sheet.D21.v
   questions.r5q1.c = sheet.E21.v
+  questions.r5q1.ca = sheet.F21.v
+  questions.r5q1.exp = sheet.G21.v
   console.log(questions)
 })
+
+async function initGame() {
+  //hearts
+  cSock.emit('updateNumberOfHearts', 3)
+  $('#hearts').text('3')
+  updateDocEntry('kth', 'states', { numberOfHearts: 3 })
+  //takeovers
+  cSock.emit('updateNumberOfTakeovers', 2)
+  $('#takeovers').text('2')
+  updateDocEntry('kth', 'states', { numberOfTakeovers: 2 })
+  //currentTotal
+  currentTotal = 0
+  cSock.emit('updateCurrentTotal', currentTotal)
+  await updateDocEntry('kth', 'states', { currentTotalVar: currentTotal })
+}
 
 let qSeq = 0;
 let roundNo = 0;
 function showQnAToController(rnqId) {
-  rnqDiv.text(questions[rnqId].i)
-  qP.text(questions[rnqId].q)
-  ansABtn.text(questions[rnqId].a)
-  ansBBtn.text(questions[rnqId].b)
-  ansCBtn.text(questions[rnqId].c)
+  qDiv.text(questions[rnqId].q)
+  ansADiv.text(questions[rnqId].a)
+  ansBDiv.text(questions[rnqId].b)
+  ansCDiv.text(questions[rnqId].c)
+  p1AnsP.text('-')
+  p2AnsP.text('-')
+  p3AnsP.text('-')
+
+  $('#correctAnsIs .ans').text(questions[rnqId].ca)
+  $('#explaination p').text(questions[rnqId].exp)
+  timerText.text('100')
+  thisQuestionMoneyDiv.text(roundMoneys[roundNo - 1])
 }
 function cycleQs() {
+  stopClock()
+  cSock.emit('stopAllSounds')
   cSock.emit('hideQnA')
   cSock.emit('resetPlayerAnswers')
   cSock.emit('resetTimeAndMoneyCountdown')
@@ -387,19 +482,22 @@ function cycleQs() {
     rnqDiv.text('')
   }
   if (qSeq == 1) {
-    showQnAToController('r1q1')
     roundNo = 1
+    showQnAToController('r1q1')
     cSock.emit('newQnA', questions.r1q1, roundMoneys[roundNo - 1])
   }
   if (qSeq == 2) {
+    roundNo = 1
     showQnAToController('r1q2')
     cSock.emit('newQnA', questions.r1q2, roundMoneys[roundNo - 1])
   }
   if (qSeq == 3) {
+    roundNo = 1
     showQnAToController('r1q3')
     cSock.emit('newQnA', questions.r1q3, roundMoneys[roundNo - 1])
   }
   if (qSeq == 4) {
+    roundNo = 1
     showQnAToController('r1q4')
     cSock.emit('newQnA', questions.r1q4, roundMoneys[roundNo - 1])
   }
@@ -419,10 +517,12 @@ function cycleQs() {
     cSock.emit('newQnA', questions.r2q1, roundMoneys[roundNo - 1])
   }
   if (qSeq == 8) {
+    roundNo = 2
     showQnAToController('r2q2')
     cSock.emit('newQnA', questions.r2q2, roundMoneys[roundNo - 1])
   }
   if (qSeq == 9) {
+    roundNo = 2
     showQnAToController('r2q3')
     cSock.emit('newQnA', questions.r2q3, roundMoneys[roundNo - 1])
   }
@@ -442,6 +542,7 @@ function cycleQs() {
     cSock.emit('newQnA', questions.r3q1, roundMoneys[roundNo - 1])
   }
   if (qSeq == 13) {
+    roundNo = 3
     showQnAToController('r3q2')
     cSock.emit('newQnA', questions.r3q2, roundMoneys[roundNo - 1])
   }
@@ -489,6 +590,84 @@ nextQBtn.on('click', () => {
     cycleQs()
   }
 })
+
+$('#q1').on('click', () => {
+  qSeq = 1
+  cycleQs()
+})
+$('#q2').on('click', () => {
+  qSeq = 2
+  cycleQs()
+})
+$('#q3').on('click', () => {
+  qSeq = 3
+  cycleQs()
+})
+$('#q4').on('click', () => {
+  qSeq = 4
+  cycleQs()
+})
+$('#q5').on('click', () => {
+  qSeq = 5
+  cycleQs()
+})
+$('#r1r2').on('click', () => {
+  qSeq = 6
+  cycleQs()
+})
+$('#q6').on('click', () => {
+  qSeq = 7
+  cycleQs()
+})
+$('#q7').on('click', () => {
+  qSeq = 8
+  cycleQs()
+})
+$('#q8').on('click', () => {
+  qSeq = 9
+  cycleQs()
+})
+$('#q9').on('click', () => {
+  qSeq = 10
+  cycleQs()
+})
+$('#r2r3').on('click', () => {
+  qSeq = 11
+  cycleQs()
+})
+$('#q10').on('click', () => {
+  qSeq = 12
+  cycleQs()
+})
+$('#q11').on('click', () => {
+  qSeq = 13
+  cycleQs()
+})
+$('#q12').on('click', () => {
+  qSeq = 14
+  cycleQs()
+})
+$('#r3r4').on('click', () => {
+  qSeq = 15
+  cycleQs()
+})
+$('#q13').on('click', () => {
+  qSeq = 16
+  cycleQs()
+})
+$('#q14').on('click', () => {
+  qSeq = 17
+  cycleQs()
+})
+$('#r4r5').on('click', () => {
+  qSeq = 18
+  cycleQs()
+})
+$('#q15').on('click', () => {
+  qSeq = 19
+  cycleQs()
+})
+
 showQBtn.on('click', () => {
   cSock.emit('showQ')
 })
@@ -514,7 +693,6 @@ showMoney20Btn.on('click', () => {
   cSock.emit('gpxShowMoneyC')
 })
 
-
 let countdown;
 function countdown100() {
   clearInterval(countdown)
@@ -527,6 +705,7 @@ function countdown100() {
     cSock.emit('updateTime', time)
     if (time == 0) {
       clearInterval(countdown)
+      cSock.emit('disableAnswers')
     }
   }, 1000)
 }
@@ -541,18 +720,19 @@ function countdown15() {
     cSock.emit('updateTime', time)
     if (time == 0) {
       clearInterval(countdown)
+      cSock.emit('disableAnswers')
     }
   }, 1000)
 }
 
-let roundMoneys = [4000, 10000, 20000, 40000, 100000] //total 20k,40k,60k,80k,100k
+let roundMoneys = [2000, 5000, 10000, 20000, 50000] //total 150k
 let moneyCountdown;
 let thisQuestionMoney;
 function countdownMoney(roundNo) {
   clearInterval(moneyCountdown)
   thisQuestionMoney = roundMoneys[roundNo - 1];
   cSock.emit('updateMoney', thisQuestionMoney)
-  let minusInterval = roundMoneys[roundNo - 1] / 200
+  let minusInterval = roundMoneys[roundNo - 1] / 400
   moneyCountdown = setInterval(() => {
     thisQuestionMoney -= minusInterval
     thisQuestionMoneyDiv.text(thisQuestionMoney);
@@ -561,78 +741,78 @@ function countdownMoney(roundNo) {
     if (thisQuestionMoney == 0) {
       clearInterval(moneyCountdown)
     }
-  }, 500)
+  }, 250)
 }
 
 function countdownBoth(roundNo) {
-  revealQuestionSound.stop()
-  clockSound.play()
   countdown100()
   countdownMoney(roundNo)
 }
 
 function stopClock() {
-  clockSound.stop()
-  lockInSound.play()
   clearInterval(countdown)
-  clearInterval
-    (moneyCountdown)
+  clearInterval(moneyCountdown)
   clearInterval(divideMoneyCountdown)
   clearInterval(divideMoneyTimeCountdown)
+  cSock.on('stopClock')
 }
 
 function showMoneyIfCorrect() {
   console.log(currentTotal, thisQuestionMoney)
-  questionAmountSound.play()
-  moneyIfCorrectDiv.text(currentTotal + thisQuestionMoney)
+  $('#money #ifCorrect .number').text(currentTotal + thisQuestionMoney)
   cSock.emit('showMoneyIfCorrect', currentTotal + thisQuestionMoney)
 }
 function showMoneyIfWrong25() {
-  questionAmountSound.play()
-  moneyIfWrongDiv.text(currentTotal * 3 / 4)
+  $('#money #ifWrong .number').text(currentTotal * 3 / 4)
   cSock.emit('showMoneyIfWrong', currentTotal * 3 / 4)
   console.log(currentTotal * 3 / 4)
 }
 function showMoneyIfWrong50() {
-  questionAmountSound.play()
-  moneyIfWrongDiv.text(currentTotal / 2)
+  $('#money #ifWrong .number').text(currentTotal / 2)
   cSock.emit('showMoneyIfWrong', currentTotal / 2)
 }
 function showMoneyIfWrong100() {
-  questionAmountSound.play()
-  moneyIfWrongDiv.text('0')
+  $('#money #ifWrong .number').text('0')
   cSock.emit('showMoneyIfWrong', '0')
 }
 async function updateMoneyCorrect() {
   currentTotal += thisQuestionMoney
-  currentTotalDiv.text(currentTotal)
+  $('#money #current .number').text(currentTotal)
+  $('#money #ifWrong .number').text('-')
+  $('#money #ifCorrect .number').text('-')
   cSock.emit('updateCurrentTotal', currentTotal)
   await updateDocEntry('kth', 'states', { currentTotalVar: currentTotal })
 }
 async function updateMoneyWrong25() {
   currentTotal = currentTotal * 3 / 4
-  currentTotalDiv.text(currentTotal)
+  $('#money #current .number').text(currentTotal)
+  $('#money #ifWrong .number').text('-')
+  $('#money #ifCorrect .number').text('-')
   cSock.emit('updateCurrentTotal', currentTotal)
   await updateDocEntry('kth', 'states', { currentTotalVar: currentTotal })
 }
 async function updateMoneyWrong50() {
   currentTotal = currentTotal / 2
-  currentTotalDiv.text(currentTotal)
+  $('#money #current .number').text(currentTotal)
+  $('#money #ifWrong .number').text('-')
+  $('#money #ifCorrect .number').text('-')
   cSock.emit('updateCurrentTotal', currentTotal)
   await updateDocEntry('kth', 'states', { currentTotalVar: currentTotal })
 }
 async function updateMoneyWrong100() {
   currentTotal = 0
-  currentTotalDiv.text(currentTotal)
+  $('#money #current .number').text(currentTotal)
+  $('#money #ifWrong .number').text('-')
+  $('#money #ifCorrect .number').text('-')
   cSock.emit('updateCurrentTotal', currentTotal)
   await updateDocEntry('kth', 'states', { currentTotalVar: currentTotal })
 }
 
-countdown100Btn.on('click', () => {
+start100Btn.on('click', () => {
   countdownBoth(roundNo)
   cSock.emit('play100s')
 })
-countdown15Btn.on('click', () => {
+start15Btn.on('click', () => {
   countdown15()
   cSock.emit('play15sStopOrGo')
 })
@@ -696,21 +876,15 @@ async function divideMoneyRoundGraphics() {
   money30 = currentTotal * 3 / 10
   money20 = currentTotal * 1 / 5
   console.log(currentTotal, money50, money30, money20)
-  timerText.text('100')
-  qP.text('Bạn chọn mức tiền nào?')
-  qP.css('opacity', '1')
-  rnqDiv.text('')
-  thisQuestionMoneyDiv.text('')
-  ansABtn.css('opacity', '1')
-  ansBBtn.css('opacity', '1')
-  ansCBtn.css('opacity', '1')
   cSock.emit('updateDividedMoneyAnswers', { a: money50, b: money30, c: money20 })
   cSock.emit('updateTime', 100)
+  timerText.text('100')
+  qDiv.text('Chia tiền')
+  thisQuestionMoneyDiv.text('')
 
-  currentTotal = parseInt(currentTotalDiv.text())
-  ansABtn.text(money50)
-  ansBBtn.text(money30)
-  ansCBtn.text(money20)
+  ansADiv.text(money50)
+  ansBDiv.text(money30)
+  ansCDiv.text(money20)
 }
 
 let divideMoneyCountdown, divideMoneyTimeCountdown, money50MinusInterval, money30MinusInterval, money20MinusInterval
@@ -722,19 +896,19 @@ function divideMoneyRound100Countdown() {
   let money50Half = money50 / 2
   let money30Half = money30 / 2
   let money20Half = money20 / 2
-  money50MinusInterval = money50 / 200
-  money30MinusInterval = money30 / 200
-  money20MinusInterval = money20 / 200
+  money50MinusInterval = money50 / 400
+  money30MinusInterval = money30 / 400
+  money20MinusInterval = money20 / 400
   clearInterval(divideMoneyCountdown)
   divideMoneyCountdown = setInterval(() => {
     money50 -= money50MinusInterval
     money30 -= money30MinusInterval
     money20 -= money20MinusInterval
-    ansABtn.text(money50.toFixed(0))
-    ansBBtn.text(money30.toFixed(0))
-    ansCBtn.text(money20.toFixed(0))
+    ansADiv.text(money50.toFixed(0))
+    ansBDiv.text(money30.toFixed(0))
+    ansCDiv.text(money20.toFixed(0))
     cSock.emit('updateDividedMoneyAnswers', { a: money50.toFixed(0), b: money30.toFixed(0), c: money20.toFixed(0) })
-  }, 500)
+  }, 250)
   clearInterval(divideMoneyTimeCountdown)
   let time = 100;
   divideMoneyTimeCountdown = setInterval(() => {
@@ -744,9 +918,9 @@ function divideMoneyRound100Countdown() {
     if (time == 50) {
       clearInterval(divideMoneyTimeCountdown)
       clearInterval(divideMoneyCountdown)
-      ansABtn.text(money50Half)
-      ansBBtn.text(money30Half)
-      ansCBtn.text(money20Half)
+      ansADiv.text(money50Half)
+      ansBDiv.text(money30Half)
+      ansCDiv.text(money20Half)
       cSock.emit('updateDividedMoneyAnswers', { a: money50Half, b: money30Half, c: money20Half })
       console.log(money50Half, money30Half, money20Half)
     }
@@ -760,19 +934,19 @@ function divideMoneyRound50Countdown() {
   let money50Half = money50 / 2
   let money30Half = money30 / 2
   let money20Half = money20 / 2
-  money50MinusInterval = money50 / 200
-  money30MinusInterval = money30 / 200
-  money20MinusInterval = money20 / 200
+  money50MinusInterval = money50 / 400
+  money30MinusInterval = money30 / 400
+  money20MinusInterval = money20 / 400
   clearInterval(divideMoneyCountdown)
   divideMoneyCountdown = setInterval(() => {
     money50Half -= money50MinusInterval
     money30Half -= money30MinusInterval
     money20Half -= money20MinusInterval
-    ansABtn.text(money50Half.toFixed(0))
-    ansBBtn.text(money30Half.toFixed(0))
-    ansCBtn.text(money20Half.toFixed(0))
+    ansADiv.text(money50Half.toFixed(0))
+    ansBDiv.text(money30Half.toFixed(0))
+    ansCDiv.text(money20Half.toFixed(0))
     cSock.emit('updateDividedMoneyAnswers', { a: money50Half.toFixed(0), b: money30Half.toFixed(0), c: money20Half.toFixed(0) })
-  }, 500)
+  }, 250)
   clearInterval(divideMoneyTimeCountdown)
   let time = 50;
   divideMoneyTimeCountdown = setInterval(() => {
@@ -780,9 +954,9 @@ function divideMoneyRound50Countdown() {
     timerText.text(time);
     cSock.emit('updateTime', time)
     if (time == 0) {
-      ansABtn.text('0')
-      ansBBtn.text('0')
-      ansCBtn.text('0')
+      ansADiv.text('0')
+      ansBDiv.text('0')
+      ansCDiv.text('0')
       cSock.emit('updateDividedMoneyAnswers', { a: 0, b: 0, c: 0 })
       clearInterval(divideMoneyTimeCountdown)
       clearInterval(divideMoneyCountdown)
@@ -791,9 +965,6 @@ function divideMoneyRound50Countdown() {
 }
 divideMoneyRoundBtn.on('click', () => {
   cSock.emit('divideMoneyRound', { a: money50, b: money30, c: money20 })
-  ansABtn.css('opacity', '1')
-  ansBBtn.css('opacity', '1')
-  ansCBtn.css('opacity', '1')
   divideMoneyRoundGraphics()
 })
 countdown100DivideMoneyBtn.on('click', () => {
@@ -826,54 +997,21 @@ cSock.on('cd15Divided', () => {
 cSock.on('stopClock', () => {
   stopClock()
 })
-cSock.on('p1Buzz', () => {
-  p1AnsDiv.css('border-color', 'rgb(237, 145, 33)')
-  p1NameDiv.css('border-color', 'rgb(237, 145, 33)')
-})
-cSock.on('p2Buzz', () => {
-  p2AnsDiv.css('border-color', 'rgb(237, 145, 33)')
-  p2NameDiv.css('border-color', 'rgb(237, 145, 33)')
-})
-cSock.on('p3Buzz', () => {
-  p3AnsDiv.css('border-color', 'rgb(237, 145, 33)')
-  p3NameDiv.css('border-color', 'rgb(237, 145, 33)')
-})
-cSock.on('p1Unbuzz', () => {
-  p1AnsDiv.css('border-color', '#358BA0')
-  p1NameDiv.css('border-color', '#358BA0')
-})
-cSock.on('p2Unbuzz', () => {
-  p2AnsDiv.css('border-color', '#358BA0')
-  p2NameDiv.css('border-color', '#358BA0')
-})
-cSock.on('p3Unbuzz', () => {
-  p3AnsDiv.css('border-color', '#358BA0')
-  p3NameDiv.css('border-color', '#358BA0')
-})
 cSock.on('p1gianhquyen', data => {
-  p1AnsP.text(data)
+  p1AnsP.text(data + ' (GQ)')
   p2AnsP.text(data)
   p3AnsP.text(data)
-  changePlayerAnserDivBorderColors('buzzed')
-  p1AnsDiv.css('border-color', '#FFD700')
-  p1NameDiv.css('border-color', '#FFD700')
 
 })
 cSock.on('p2gianhquyen', data => {
   p2AnsP.text(data)
-  p1AnsP.text(data)
+  p1AnsP.text(data + ' (GQ)')
   p3AnsP.text(data)
-  changePlayerAnserDivBorderColors('buzzed')
-  p2AnsDiv.css('border-color', '#FFD700')
-  p2NameDiv.css('border-color', '#FFD700')
 })
 cSock.on('p3gianhquyen', data => {
   p3AnsP.text(data)
   p2AnsP.text(data)
-  p1AnsP.text(data)
-  changePlayerAnserDivBorderColors('buzzed')
-  p3AnsDiv.css('border-color', '#FFD700')
-  p3NameDiv.css('border-color', '#FFD700')
+  p1AnsP.text(data + ' (GQ)')
 })
 cSock.on('p1Stop', () => {
   p1AnsP.text('Dừng lại')
@@ -896,7 +1034,6 @@ cSock.on('p3Continue', () => {
 
 playIntroSoundBtn.on('click', () => {
   cSock.emit('playIntro')
-  gSock.emit('playIntro')
 })
 playContestantsEntranceSoundBtn.on('click', () => {
   cSock.emit('playContestantsEntrance')
@@ -929,27 +1066,44 @@ playContestantsEntranceSoundBedBtn.on('click', () => {
 playWaitCorrectAnswerSoundVioBtn.on('click', () => {
   cSock.emit('playWaitCorrectAnswerVio')
 })
+playDivideSuccessBedBtn.on('click', () => {
+  cSock.emit('playDivideSuccessBed')
+})
 
 show3HeartsBtn.on('click', () => {
   cSock.emit('updateNumberOfHearts', 3)
+  $('#hearts').text('3')
+  updateDocEntry('kth', 'states', { numberOfHearts: 3 })
 })
 show2HeartsBtn.on('click', () => {
   cSock.emit('updateNumberOfHearts', 2)
+  $('#hearts').text('2')
+  updateDocEntry('kth', 'states', { numberOfHearts: 2 })
 })
 show1HeartBtn.on('click', () => {
   cSock.emit('updateNumberOfHearts', 1)
+  $('#hearts').text('1')
+  updateDocEntry('kth', 'states', { numberOfHearts: 1 })
 })
 show0HeartsBtn.on('click', () => {
   cSock.emit('updateNumberOfHearts', 0)
+  $('#hearts').text('0')
+  updateDocEntry('kth', 'states', { numberOfHearts: 0 })
 })
 show2TakeoversBtn.on('click', () => {
   cSock.emit('updateNumberOfTakeovers', 2)
+  $('#takeovers').text('2')
+  updateDocEntry('kth', 'states', { numberOfTakeovers: 2 })
 })
 show1TakeoverBtn.on('click', () => {
   cSock.emit('updateNumberOfTakeovers', 1)
+  $('#takeovers').text('1')
+  updateDocEntry('kth', 'states', { numberOfTakeovers: 1 })
 })
 show0TakeoversBtn.on('click', () => {
   cSock.emit('updateNumberOfTakeovers', 0)
+  $('#takeovers').text('0')
+  updateDocEntry('kth', 'states', { numberOfTakeovers: 0 })
 })
 
 correctAnsIsABtn.on('click', () => {

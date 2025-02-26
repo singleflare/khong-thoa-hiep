@@ -12,6 +12,8 @@ body {
   position: relative;
   user-select: none;
   font-family: 'San Francisco Display';
+  aspect-ratio: 16/9;
+  margin: auto;
 }
 
 p,
@@ -27,62 +29,88 @@ span {
 }
 
 #playersLockinStatus {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  justify-content: space-between;
-
   position: absolute;
-  left: 230px;
-  width: 600px;
+  left: 5%;
+  width: 40%;
+}
+
+#player1 {
+  position: absolute;
+  left: 0;
+  width: 33.33%;
+}
+
+#player2 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+}
+
+#player3 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+}
+
+.playerNameDiv,
+.label {
+  font-size: 15pt;
+  border: 3px solid var(--main);
+  background-color: black;
+  text-wrap-mode: nowrap;
+  overflow: hidden;
+}
+
+.playerAnsDiv,
+.money {
+  font-size: 25pt;
+  border: 3px solid var(--main);
+  background-color: black;
+  color: white;
 }
 
 #totalMoney {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   position: absolute;
-  left: 888px;
+  width: 40%;
+  right: 5%;
 }
 
 #totalMoney div {
-  color: white;
   font-family: 'San Francisco Display';
   text-align: center;
-
-  border-width: 3px;
-  border-style: solid;
   background-color: black;
 }
 
 .totalMoneyDivs {
   font-size: 25pt;
-  width: 300px;
-}
-
-#currentTotal {}
-
-#ifCorrect {
-  border-color: var(--correct);
+  width: 33.33%;
+  position: absolute;
 }
 
 #ifWrong {
+  left: 0;
+}
+
+#ifWrong div {
   border-color: var(--wrong);
 }
 
-.playerNameDiv {
-  font-size: 15pt;
-  border: 3px solid var(--main);
-  background-color: black;
-  width: 150px;
+#currentTotalDiv {
+  left: 33.33%;
 }
 
-.playerAnsDiv {
-  font-size: 25pt;
-  border: 3px solid var(--main);
-  background-color: black;
-  width: 150px;
-  color: white;
+#currentTotalDiv div {
+  border-color: white;
 }
+
+#ifCorrect {
+  left: 66.66%;
+}
+
+#ifCorrect div {
+  border-color: var(--correct);
+}
+
 
 .playerAnsP {
   height: 40px;
@@ -90,81 +118,23 @@ span {
 
 #buzzer {
   position: absolute;
-}
-
-#buzzer button {
-  position: absolute;
-  font-family: 'San Francisco Display';
-  left: 230px;
-  top: 80px;
-  width: 1426px;
+  top: 100px;
   height: 150px;
-  font-size: 25pt;
-  background-color: white;
-  border-width: 0;
-}
-
-#buzzer button:disabled {
-  background-color: gray;
-}
-
-#gianhquyen button {
-  position: absolute;
+  width: calc(89% - 190px);
+  left: calc(9% + 30px);
   font-family: 'San Francisco Display';
-  left: 1656px;
-  top: 80px;
+  font-size: 20pt;
+}
+
+#gianhquyen {
+  position: absolute;
+  top: 100px;
+  height: 150px;
   width: 150px;
-  height: 150px;
-  font-size: 25pt;
-  background-color: var(--orange);
-  border-width: 0;
-}
-
-#gianhquyen button:disabled {
-  background-color: gray;
-}
-
-#qna {
-  position: absolute;
-  display: grid;
-  grid-template-rows: auto auto auto auto;
-  background-repeat: no-repeat;
-  height: 342px;
-  top: 275px;
-  width: 1694px;
-  left: 103px;
-}
-
-#qna p {}
-
-#q {
-  position: absolute;
-  transform: skew(-18deg);
-  border: 3px solid var(--main);
-  background-color: black;
-  color: white;
-  width: 1573.5px;
-  height: 110px;
-  top: 10px;
-  left: 90px;
-}
-
-#q p {
-  font-size: 28pt;
-}
-
-.ans {}
-
-.ans button {
-  font-size: 25pt;
+  right: calc(11% - 28px);
   font-family: 'San Francisco Display';
-  transform: skew(-18deg);
-  border: 3px solid var(--main);
-  background-color: black;
-  color: white;
-  width: 1490px;
-  height: 70px;
-  text-align: left;
+  font-size: 20pt;
+  background-color: orange;
 }
 
 .ans button:hover {
@@ -172,22 +142,25 @@ span {
   color: black;
 }
 
-#ans1 {
+
+
+#q {
   position: absolute;
-  top: 125px;
-  left: 149.5px
+  transform: skew(-18deg);
+  border: 3px solid var(--main);
+  background-color: black;
+  color: white;
+  width: 80%;
+  height: 100px;
+  top: 300px;
+  left: 9%;
+  box-sizing: border-box;
 }
 
-#ans2 {
-  position: absolute;
-  top: 194px;
-  left: 127px
-}
-
-#ans3 {
-  position: absolute;
-  top: 261.5px;
-  left: 105px
+#q div {
+  font-size: 25pt;
+  transform: skew(18deg);
+  text-align: center;
 }
 
 .letter {
@@ -195,44 +168,89 @@ span {
   transform: skew(-18deg);
   border: 3px solid var(--main);
   background-color: black;
-  width: 85px;
-  height: 64px;
+  width: 80px;
+  box-sizing: border-box;
+  position: absolute;
+}
+
+.letter p {
+  transform: skew(18deg);
 }
 
 #a {
-  position: absolute;
-  top: 125px;
-  left: 60px;
+  top: 397px;
+  left: calc(9% - 27px);
 }
 
 #b {
-  position: absolute;
-  top: 194px;
-  left: 37.5px;
+  top: 464px;
+  left: calc(9% - 49px);
 }
 
 #c {
+  top: 531px;
+  left: calc(9% - 71px);
+}
+
+.ans {
   position: absolute;
-  top: 262px;
-  left: 15.5px;
+  transform: skew(-18deg);
+  height: 70px;
+  border: 3px solid var(--main);
+  box-sizing: border-box;
+  background-color: black;
+  color: white;
+  width: calc(80% - 77px);
+  pointer-events: all;
+}
+
+.ans:disabled,
+#del:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.ans div {
+  transform: skew(18deg);
+  font-family: 'San Francisco Display';
+  font-size: 25pt;
+  text-align: left;
+  margin-left: 5px;
+}
+
+#ans1 {
+  top: 397px;
+  left: calc(9% + 50px);
+}
+
+#ans2 {
+  top: 464px;
+  left: calc(9% + 28px);
+}
+
+#ans3 {
+  top: 531px;
+  left: calc(9% + 6px);
 }
 
 #del {
   position: absolute;
-  top: 329px;
-  left: 1502px;
-}
-
-#del button {
   font-size: 25pt;
   font-family: 'San Francisco Display';
   transform: skew(-18deg);
   border: 3px solid var(--main);
   background-color: black;
   color: white;
+  top: 598px;
+  right: calc(11% + 88px);
 }
 
-#del button:hover {
+#del div {
+  transform: skew(18deg);
+}
+
+.ans:hover,
+#del:hover {
   background-color: var(--main);
   color: black;
 }
@@ -243,10 +261,10 @@ span {
   justify-content: space-around;
 
   position: absolute;
-  top: -40px;
-  left: 1510px;
-  width: 180px;
-  height: 46px;
+  top: 257px;
+  right: calc(11% - 22px);
+  width: 90px;
+  height: 40px;
 
   font-size: 15pt;
   transform: skew(-18deg);
@@ -255,19 +273,21 @@ span {
 }
 
 .heart {
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   background-color: white;
   border-radius: 50%;
   display: inline-block;
-  margin-top: 8px;
+  margin-top: 10px;
   transform: skew(18deg);
 }
 
 #rnq {
   position: absolute;
-  top: -40px;
-  left: 117px;
+  top: 257px;
+  left: calc(9% + 23px);
+  width: 300px;
+  height: 40px;
 
   text-align: center;
   font-family: 'San Francisco Display';
@@ -277,40 +297,44 @@ span {
   transform: skew(-18deg);
   border: 3px solid var(--main);
   background-color: black;
-  width: 300px;
-  height: 46px;
 }
 
 #timer {
   position: absolute;
-  top: -40px;
-  left: 1068px;
+  top: 257px;
+  right: calc(11% + 230px);
+  width: 70px;
+  height: 40px;
 
   text-align: center;
   font-family: 'San Francisco Display';
-  font-size: 30pt;
+  font-size: 25pt;
   color: white;
 
   transform: skew(-18deg);
   border: 3px solid var(--main);
   background-color: black;
-  width: 85px;
-  height: 46px;
 }
 
 #thisQuestionMoney {
   position: absolute;
-  top: -40px;
-  left: 1157px;
+  top: 257px;
+  right: calc(11% + 71px);
+  width: 155px;
+  height: 40px;
 
   text-align: center;
   font-family: 'San Francisco Display';
-  font-size: 30pt;
+  font-size: 25pt;
   color: white;
 
   transform: skew(-18deg);
   border: 3px solid var(--main);
   background-color: black;
-  width: 350px;
-  height: 46px;
+}
+
+#thisQuestionMoney div,
+#timer div,
+#rnq div {
+  transform: skew(18deg);
 }

@@ -106,7 +106,7 @@ function runTimer() {
 function stopTimer() {
   $('#currentMoney').css('animation-play-state', 'paused')
   $('#green').css('animation-play-state', 'paused')
-  //Howler.stop()
+  Howler.stop()
   lockInSound.play()
 }
 
@@ -161,6 +161,9 @@ function showDividedMoneyC() {
 
 gSock.on('init', data => {
   console.log(data)
+  $('#player1Name p').text(data.player1Name)
+  $('#player2Name p').text(data.player2Name)
+  $('#player3Name p').text(data.player3Name)
 })
 gSock.on('showQ', () => showQuestion())
 gSock.on('showA', () => showAnsA())
@@ -343,7 +346,6 @@ gSock.on('highlightChosenAnswer', data => {
 })
 
 gSock.on('correctAns', () => {
-  Howler.stop()
   correctSound.play()
   changePlayerAnswerDivBorderColors('correct')
   if (currentAns.length == 1) {
@@ -362,7 +364,6 @@ gSock.on('correctAns', () => {
 })
 
 gSock.on('wrongAns', () => {
-  Howler.stop()
   incorrectSound.play()
   changePlayerAnswerDivBorderColors('wrong')
   if (currentAns.length == 1) {
@@ -559,6 +560,9 @@ gSock.on('playContestantsEntranceBed', () => {
 })
 gSock.on('playWaitCorrectAnswerVio', () => {
   waitCorrectAnswerVioSound.play()
+  setTimeout(() => {
+    bedAfterAnswerUKSound.stop()
+  }, 500)
 })
 gSock.on('playWaitCorrectAnswer', () => {
   waitCorrectAnswerSound.play()
@@ -574,6 +578,12 @@ gSock.on('play15sOpinion', () => {
 })
 gSock.on('playShareBed', () => {
   shareBedSound.play()
+})
+gSock.on('playDivideSuccessBed', () => {
+  divideSuccessBedSound.play()
+})
+gSock.on('playWinLoseBed', () => {
+  winLoseSound.play()
 })
 
 gSock.on('stopAllSounds', () => {

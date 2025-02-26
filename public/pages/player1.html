@@ -35,52 +35,73 @@
       </div>
     </div>
   </div>
-
   <div id="totalMoney">
-    <div id="ifWrong" class="totalMoneyDivs"></div>
-    <div id="currentTotalDiv" class="totalMoneyDivs"></div>
-    <div id="ifCorrect" class="totalMoneyDivs"></div>
-  </div>
-  <div id="buzzer">
-    <button onclick="pressBuzzer()">Chốt đáp án</button>
-  </div>
-  <div id="gianhquyen">
-    <button>Giành quyền</button>
+    <div id="ifWrong" class="totalMoneyDivs">
+      <div class='label'>
+        <p>Nếu sai</p>
+      </div>
+      <div class='money'>
+        <p>0</p>
+      </div>
+    </div>
+    <div id="currentTotalDiv" class="totalMoneyDivs">
+      <div class='label'>
+        <p>Hiện tại</p>
+      </div>
+      <div class='money'>
+        <p>0</p>
+      </div>
+    </div>
+    <div id="ifCorrect" class="totalMoneyDivs">
+      <div class='label'>
+        <p>Nếu đúng</p>
+      </div>
+      <div class='money'>
+        <p>0</p>
+      </div>
+    </div>
   </div>
 
-  <div id="qna">
-    <div id="q">
-      <p></p>
-    </div>
-    <div id="a" class="letter">
-      <p>A</p>
-    </div>
-    <div id="b" class="letter">
-      <p>B</p>
-    </div>
-    <div id="c" class="letter">
-      <p>C</p>
-    </div>
-    <div id="ans1" class="ans">
-      <button></button>
-    </div>
-    <div id="ans2" class="ans">
-      <button></button>
-    </div>
-    <div id="ans3" class="ans">
-      <button></button>
-    </div>
-    <div id="del">
-      <button>Xóa</button>
-    </div>
-    <div id="timer"></div>
-    <div id="rnq"></div>
-    <div id="thisQuestionMoney"></div>
-    <div id="heartsContainer">
-      <div id="heart1" class="heart"></div>
-      <div id="heart2" class="heart"></div>
-      <div id="heart3" class="heart"></div>
-    </div>
+  <button disabled id="buzzer" onclick="pressBuzzer()">Chốt đáp án</button>
+  <button disabled id="gianhquyen">Giành quyền</button>
+
+  <div id="q">
+    <div></div>
+  </div>
+  <div id="a" class="letter">
+    <p>A</p>
+  </div>
+  <div id="b" class="letter">
+    <p>B</p>
+  </div>
+  <div id="c" class="letter">
+    <p>C</p>
+  </div>
+  <button disabled id="ans1" class="ans">
+    <div></div>
+  </button>
+  <button disabled id="ans2" class="ans">
+    <div></div>
+  </button>
+  <button disabled id="ans3" class="ans">
+    <div></div>
+  </button>
+  <button disabled id="del">
+    <div>Xóa</div>
+  </button>
+  <div id="timer">
+    <div></div>
+  </div>
+  <div id="rnq">
+    <div></div>
+  </div>
+  <div id="thisQuestionMoney">
+    <div></div>
+  </div>
+  <div id="heartsContainer">
+    <div id="heart1" class="heart"></div>
+    <div id="heart2" class="heart"></div>
+    <div id="heart3" class="heart"></div>
   </div>
   <script src="socket.io/socket.io.js"></script>
   <script src="../scripts/jquery-3.7.1.min.js"></script>

@@ -4,174 +4,226 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../styles/general.css">
-  <link rel="stylesheet" href="../styles/player.css">
   <link rel="stylesheet" href="../styles/control.css">
   <title>Controller</title>
 </head>
 
 <body>
-  <div id="controlButtons">
-    <span>Câu hỏi & đáp án</span>
-    <button id="prevQ">Câu trước</button>
-    <button id="nextQ">Câu sau</button>
-    <button id="showQBtn">Hiện câu hỏi</button>
-    <button id="showABtn">Hiện đáp án A</button>
-    <button id="showBBtn">Hiện đáp án B</button>
-    <button id="showCBtn">Hiện đáp án C</button>
-    <button id="cd100">Đếm ngược 100s</button>
-    <button id="cd15">Đếm ngược 15s</button>
-    <hr>
-    <span>Đúng/sai</span>
-    <button id="playWaitCorrectAns">Âm thanh chờ đáp án đúng</button>
-    <button id="playWaitCorrectAnsVio">Âm thanh chờ đáp án đúng (tiếng vĩ)</button>
-    <button id="correctAns">Đáp án đúng</button>
-    <button id="wrongAns">Đáp án sai</button>
-    <hr>
-    <span>Hiển thị tiền thưởng</span>
-    <button id="showMoneyIfCorrect">Tiền thưởng nếu đúng</button>
-    <button id="showMoneyIfWrong25">Tiền thưởng nếu sai -25%</button>
-    <button id="showMoneyIfWrong50">Tiền thưởng nếu sai -50%</button>
-    <button id="showMoneyIfWrong100">Tiền thưởng nếu sai -100%</button>
-    <button id="updateMoneyCorrect">Cập nhật tiền (đúng)</button>
-    <button id="updateMoneyWrong25">Cập nhật tiền (sai -25%)</button>
-    <button id="updateMoneyWrong50">Cập nhật tiền (sai -50%)</button>
-    <button id="updateMoneyWrong100">Cập nhật tiền (sai -100%)</button>
-    <hr>
-    <span>Nhập đề</span>
-    <form id="fileForm" style="display:inline">
-      <input type="file" name="file" id="fileInput" accept=".xlsx" style="color:white;font-size:25pt">
-    </form>
-    <hr>
-    <span>Vòng chia tiền</span>
-    <button id="divideMoneyRound">Chia tiền</button>
-    <button id="15sThoughts">15s nói suy nghĩ</button>
-    <button id="showMoney50">Hiện 50%</button>
-    <button id="showMoney30">Hiện 30%</button>
-    <button id="showMoney20">Hiện 20%</button>
-    <button id="countdown100DivideMoney">Đếm ngược 100s</button>
-    <button id="countdown50DivideMoney">Đếm ngược 50s</button>
-    <hr>
+  <div id='wholePage'>
+    <div id='qnaControl'>
+      <div class='label'>Câu hỏi & Đáp án</div>
+      <div class='flexContainer'>
+        <input type="file" name="file" id="fileInput" accept=".xlsx">
+        <button id="prevQ">Câu trước</button>
+        <button id="nextQ">Câu sau</button>
+      </div>
+      <div id='questionsContainer' class='flexContainer'>
+        <button id='q1'>1.1</button>
+        <button id='q2'>1.2</button>
+        <button id='q3'>1.3</button>
+        <button id='q4'>1.4</button>
+        <button id='q5'>1.5</button>
+        <button id='r1r2'>V1/V2</button>
+        <button id='q6'>2.1</button>
+        <button id='q7'>2.2</button>
+        <button id='q8'>2.3</button>
+        <button id='q9'>2.4</button>
+        <button id='r2r3'>V2/V3</button>
+        <button id='q10'>3.1</button>
+        <button id='q11'>3.2</button>
+        <button id='q12'>3.3</button>
+        <button id='r3r4'>V3/V4</button>
+        <button id='q13'>4.1</button>
+        <button id='q14'>4.2</button>
+        <button id='r4r5'>V4/V5</button>
+        <button id='q15'>5.1</button>
+      </div>
+
+      <div id='pAns' class='flexContainer'>
+        <div id='time'>
+          <p>Thời gian</p>
+          <p class='number'>-</p>
+        </div>
+        <div id='thisQuestionMoney'>
+          <p style='font-size:13pt'>Tiền thưởng câu này</p>
+          <p class='number'>-</p>
+        </div>
+        <div id='player1'>
+          <p>NC1</p>
+          <p class='ansLetter'>-</p>
+        </div>
+        <div id='player2'>
+          <p>NC2</p>
+          <p class='ansLetter'>-</p>
+        </div>
+        <div id='player3'>
+          <p>NC3</p>
+          <p class='ansLetter'>-</p>
+        </div>
+        <div id='correctAnsIs'>
+          <p>Đáp án đúng</p>
+          <p class='ans'>-</p>
+        </div>
+      </div>
+      <div id='question'>
+        <p>-</p>
+      </div>
+      <div id='answers' class='flexContainer'>
+        <div id='ansA'>
+          <p>-</p>
+        </div>
+        <div id='ansB'>
+          <p>-</p>
+        </div>
+        <div id='ansC'>
+          <p>-</p>
+        </div>
+      </div>
+      <div id='explaination'>
+        <p>-</p>
+      </div>
+
+      <div id='show' class='flexContainer'>
+        <button id="q">Hiện câu hỏi</button>
+        <button id="a">Hiện A</button>
+        <button id="b">Hiện B</button>
+        <button id="c">Hiện C</button>
+        <button id="start100">Bắt đầu 100s</button>
+        <button id="start15">Bắt đầu 15s</button>
+      </div>
+
+      <div class='label'>Tiền thưởng</div>
+      <div id='money' class='flexContainer'>
+        <div id='ifWrong'>
+          <p>Nếu sai:</p>
+          <p class='number'>-</p>
+        </div>
+        <div id='current'>
+          <p>Hiện tại:</p>
+          <p class='number'>-</p>
+        </div>
+        <div id='ifCorrect'>
+          <p>Nếu đúng:</p>
+          <p class='number'>-</p>
+        </div>
+      </div>
+
+      <div class='flexContainer' id='previewAndUpdateLabels' style='height:3%;width: 100%;'>
+        <p>Xem trước</p>
+        <button id="playWaitCorrectAnsVio" style='font-size:18pt'>Âm thanh chờ công bố</button>
+        <p>Cập nhật</p>
+      </div>
+      <div class='flexContainer' id='previewAndUpdateButtons' style='height:3%;width: 100%;'>
+        <div class='flexContainer'>
+          <button id="showMoneyIfCorrect">Đúng</button>
+          <button id="showMoneyIfWrong25">-25%</button>
+          <button id="showMoneyIfWrong50">-50%</button>
+          <button id="showMoneyIfWrong100">-100%</button>
+        </div>
+        <div class='flexContainer' style='width: 100%;'>
+          <button id="correctAns">Đúng</button>
+          <button id="wrongAns">Sai</button>
+        </div>
+        <div class='flexContainer' style='width: 100%;'>
+          <button id="updateMoneyCorrect">Đúng</button>
+          <button id="updateMoneyWrong25">-25%</button>
+          <button id="updateMoneyWrong50">-50%</button>
+          <button id="updateMoneyWrong100">-100%</button>
+        </div>
+      </div>
+
+
+
+
+      <div class='label'>Vòng chia tiền</div>
+      <div id='flexContainer'>
+        <button id="divideMoneyRound">Chia tiền</button>
+        <button id="showMoney50">Hiện 50%</button>
+        <button id="showMoney30">Hiện 30%</button>
+        <button id="showMoney20">Hiện 20%</button>
+        <button id="15sThoughts">15s nói suy nghĩ</button>
+        <button id='enableP1Ans'>Mở khóa NC1</button>
+        <button id='enableP2Ans'>Mở khóa NC2</button>
+        <button id='enableP3Ans'>Mở khóa NC3</button>
+        <button id="countdown100DivideMoney">50s đầu</button>
+        <button id="countdown50DivideMoney">50s sau</button>
+      </div>
+
+      <div class='label'>Dữ liệu khác</div>
+      <div class='flexContainer' id='heartsAndTakeovers'>
+        <div>
+          <p>Mạng:</p>
+          <p id='hearts'>-</p>
+          <div class='flexContainer'>
+            <button id="show3Hearts">3</button>
+            <button id="show2Hearts">2</button>
+            <button id="show1Heart">1</button>
+            <button id="show0Hearts">0</button>
+          </div>
+        </div>
+        <div>
+          <p>Giành quyền:</p>
+          <p id='takeovers'>-</p>
+          <div class='flexContainer'>
+            <button id="show2Takeovers">2</button>
+            <button id="show1Takeover">1</button>
+            <button id="show0Takeover">0</button>
+          </div>
+        </div>
+        <div class='flexContainer'>
+          <div class='flexContainer' style='flex-direction: column;'>
+            <input type="text" id="inputPlayer1Name" class='inputPlayerName' placeholder="Tên NC1">
+            <input type="text" id="inputPlayer2Name" class='inputPlayerName' placeholder="Tên NC2">
+            <input type="text" id="inputPlayer3Name" class='inputPlayerName' placeholder="Tên NC3">
+          </div>
+          <button id='updatePlayerNames'>Cập nhật tên</button>
+        </div>
+      </div>
+      <div class='flexContainer'>
+        <button id='stopClock'>Dừng thời gian</button>
+        <button id="resetData">Reset dữ liệu</button>
+      </div>
+    </div>
+    <div id='gpxWebControl'>
+      <iframe id='gpxIframe' src="http://localhost:3000/gpx"></iframe>
+      <button id="fadeoutQnAGpx">Fadeout gpx câu hỏi</button>
+      <button id="fadeinQnAGpx">Fadein gpx câu hỏi</button>
+      <button id="fadeoutMoneyGpx">Fadeout gpx chia tiền</button>
+      <button id="fadeinMoneyGpx">Fadein gpx chia tiền</button>
+      <button id="correctAnsA">A</button>
+      <button id="correctAnsB">B</button>
+      <button id="correctAnsC">C</button>
+      <button id="correctAnsAB">AB</button>
+      <button id="correctAnsAC">AC</button>
+      <button id="correctAnsBC">BC</button>
+      <button id="correctAnsABC">ABC</button>
+      <button id="correctAnsACB">ACB</button>
+      <button id="correctAnsBAC">BAC</button>
+      <button id="correctAnsBCA">BCA</button>
+      <button id="correctAnsCAB">CAB</button>
+      <button id="correctAnsCBA">CBA</button>
+    </div>
+    <div id='musicControl'>
+      <button id="playWaitCorrectAns">Âm thanh chờ đáp án đúng (VN)</button>
+      <button id="playIntro">Intro</button>
+      <button id="playContestantsEntrance">Giới thiệu 3 NC</button>
+      <button id="playContestantsEntranceWithBed">Giới thiệu 3 NC + Nền</button>
+      <button id="playBedAfterAnswer">Nền sau khi trả lời (VN)</button>
+      <button id="playBedAfterAnswerUK">Nền sau khi trả lời (Anh)</button>
+      <button id="playShareBed">Nền chia tiền</button>
+      <button id="playDivideSuccessBed">Nền chia tiền thành công</button>
+      <button id="playWinLoseBed">Nền trò chuyện cuối trò chơi</button>
+      <button id="playOutro">Outro</button>
+      <button id="stopAllSounds">Dừng tất cả âm thanh</button>
+    </div>
+
     <span>Reset</span>
     <button id="resetPlayerAnswers">Reset đáp án NC</button>
     <button id="resetTimeAndMoneyCountdown">Reset đếm ngược thời gian và tiền</button>
-    <hr>
-    <span>Mạng & Giành quyền</span>
-    <button id="show3Hearts">Còn 3 mạng</button>
-    <button id="show2Hearts">Còn 2 mạng</button>
-    <button id="show1Heart">Còn 1 mạng</button>
-    <button id="show0Hearts">Hết mạng</button>
-    <button id="show2Takeovers">Còn 2 giành quyền</button>
-    <button id="show1Takeover">Còn 1 giành quyền</button>
-    <button id="show0Takeover">Hết giành quyền</button>
-    <hr>
-    <span>(Web gpx)Đồ họa</span>
-    <button id="fadeoutQnAGpx">Fadeout gpx câu hỏi</button>
-    <button id="fadeinQnAGpx">Fadein gpx câu hỏi</button>
-    <button id="fadeoutMoneyGpx">Fadeout gpx chia tiền</button>
-    <button id="fadeinMoneyGpx">Fadein gpx chia tiền</button>
-    <hr>
-    <span>(Web gpx)Đáp án đúng</span>
-    <button id="correctAnsA">A</button>
-    <button id="correctAnsB">B</button>
-    <button id="correctAnsC">C</button>
-    <button id="correctAnsAB">AB</button>
-    <button id="correctAnsAC">AC</button>
-    <button id="correctAnsBC">BC</button>
-    <button id="correctAnsABC">ABC</button>
-    <button id="correctAnsACB">ACB</button>
-    <button id="correctAnsBAC">BAC</button>
-    <button id="correctAnsBCA">BCA</button>
-    <button id="correctAnsCAB">CAB</button>
-    <button id="correctAnsCBA">CBA</button>
-    <hr>
-    <span>Âm thanh</span>
-    <button id="playIntro">Intro</button>
-    <button id="playContestantsEntrance">Giới thiệu 3 NC</button>
-    <button id="playContestantsEntranceWithBed">Giới thiệu 3 NC + Nền</button>
-    <button id="playBedAfterAnswer">Nhạc nền sau khi trả lời (VN)</button>
-    <button id="playBedAfterAnswerUK">Nhạc nền sau khi trả lời (Anh)</button>
-    <button id="playShareBed">Nhạc nền chia tiền</button>
-    <button id="playWinLoseBed">Nền thắng cuộc/thua cuộc</button>
-    <button id="playOutro">Outro</button>
-    <button id="stopAllSounds">Dừng tất cả âm thanh</button>
-    <hr>
-    <span>Dữ liệu</span>
-    <button id="resetData">Reset dữ liệu</button>
-    <input type="text" id="inputPlayer1Name" class='inputPlayerName' placeholder="Tên NC1">
-    <input type="text" id="inputPlayer2Name" class='inputPlayerName' placeholder="Tên NC2">
-    <input type="text" id="inputPlayer3Name" class='inputPlayerName' placeholder="Tên NC3">
-    <button id='updatePlayerNames'>Cập nhật tên NC </button>
+
+  </div>
   </div>
 
-  <div id="playArea">
-    <div id="playersLockinStatus">
-      <div id="player1">
-        <div class="playerNameDiv">
-          <p class="playerNameP">NC1</p>
-        </div>
-        <div class="playerAnsDiv">
-          <p class="playerAnsP"></p>
-        </div>
-      </div>
-      <div id="player2">
-        <div class="playerNameDiv">
-          <p class="playerNameP">NC2</p>
-        </div>
-        <div class="playerAnsDiv">
-          <p class="playerAnsP"></p>
-        </div>
-      </div>
-      <div id="player3">
-        <div class="playerNameDiv">
-          <p class="playerNameP">NC3</p>
-        </div>
-        <div class="playerAnsDiv">
-          <p class="playerAnsP"></p>
-        </div>
-      </div>
-    </div>
-
-    <div id="totalMoney">
-      <div id="ifWrong" class="totalMoneyDivs"></div>
-      <div id="currentTotalDiv" class="totalMoneyDivs"></div>
-      <div id="ifCorrect" class="totalMoneyDivs"></div>
-    </div>
-    <div id="qna">
-      <div id="q">
-        <p></p>
-      </div>
-      <div id="a" class="letter">
-        <p>A</p>
-      </div>
-      <div id="b" class="letter">
-        <p>B</p>
-      </div>
-      <div id="c" class="letter">
-        <p>C</p>
-      </div>
-      <div id="ans1" class="ans">
-        <button></button>
-      </div>
-      <div id="ans2" class="ans">
-        <button></button>
-      </div>
-      <div id="ans3" class="ans">
-        <button></button>
-      </div>
-      <div id="del">
-        <button>Xóa</button>
-      </div>
-      <div id="timer"></div>
-      <div id="rnq"></div>
-      <div id="thisQuestionMoney"></div>
-      <div id="heartsContainer">
-        <div id="heart1" class="heart"></div>
-        <div id="heart2" class="heart"></div>
-        <div id="heart3" class="heart"></div>
-      </div>
-    </div>
-  </div>
 
   <script src="socket.io/socket.io.js"></script>
   <script src="../scripts/jquery-3.7.1.min.js"></script>
